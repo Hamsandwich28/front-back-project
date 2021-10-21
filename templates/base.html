@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+{% if title %}
+    <title>{{ title }}</title>
+{% else %}
+    <title>Some Page</title>
+{% endif %}
+</head>
+
+<body>
+{% block content -%}
+
+{% block mainmenu -%}
+    <ul class="mainmenu">
+    {% for tab in menu -%}
+        <li><a href="{{ tab.url }}">{{ tab.title }}</a></li>
+    {% endfor -%}
+    </ul>
+{% endblock mainmenu -%}
+
+    <div class="clear"></div>
+    <div class="content">
+    {% if title %}
+        <h1>{{ title }}</h1>
+    {% else %}
+        <h1>Some Page</h1>
+    {% endif %}
+    </div>
+
+{% endblock content -%}
+</body>
+</html>
