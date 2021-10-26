@@ -1,12 +1,11 @@
-<!-- REQ DELETE -->
 {% extends "base.html" %}
 
-{% block content %}
+{% block base_header %}
 {{ super() }}
-<ul>
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-</ul>
+{% endblock base_header %}
 
+{% block content %}
+    <div class="content" id="app">
+        <p>Это страница -> {{ title }}</p>
+    </div>
 {% endblock content %}
