@@ -1,11 +1,10 @@
-{% extends "base.html" %}
+{% extends "base.html" -%}
 
-{% block base_header %}
+{% block head -%}
 {{ super() }}
-{% endblock base_header %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock head -%}
 
-{% block content %}
-    <div class="content" id="app">
-        <p>Это страница -> {{ title }}</p>
-    </div>
-{% endblock content %}
+{% block content -%}
+<a href="/register">Регистрация</a> <!-- ВРЕМЕННО -->
+{% endblock content -%}
