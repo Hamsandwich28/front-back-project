@@ -1,0 +1,18 @@
+{% extends "base.html" -%}
+
+{% block head -%}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainpage.css') }}">
+{% endblock head -%}
+
+{% block content -%}
+    {% for cat, msg in get_flashed_messages(True) -%}
+    <div class="flash {{ cat }}">{{ msg }}</div>
+    {% endfor %}
+
+    <p><a href="{{ url_for('logout') }}">Выйти из профиля</a></p>
+    <p>Email: {{ current_user.get_email() }}</p>
+    <p>Firstname: {{ current_user.get_fname() }}</p>
+    <p>Lastname: {{ current_user.get_lname() }}</p>
+    <script src="{{ url_for('static', filename='js/mainpage.js') }}"></script>
+{% endblock content -%}

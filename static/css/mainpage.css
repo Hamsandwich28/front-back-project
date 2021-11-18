@@ -1,0 +1,234 @@
+@font-face {
+    font-family: Roboto-Bold;
+    src: local(Roboto-Bold), url(Roboto-Bold.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Light;
+    src: local(Roboto-Light), url(Roboto-Light.ttf);
+}
+
+body {
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+    background: url(greeting.jpg) center no-repeat;
+    background-size: 100% 100%;
+}
+
+.form {
+    background: rgba(184, 207, 105, 0.3);
+    width: 1600px;
+    height: 800px;
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 20px;
+    font-family: Roboto-Light;
+}
+
+.menu {
+    background: #2d4a1a;
+    width: 330px;
+    height: 800px;
+    border-radius: 20px;
+    font-family: Roboto-Light;
+    color: #fff;
+    float: left;
+}
+
+.menu .icon {
+    float: left;
+    width: 55px;
+    height: 55px;
+    margin-left: 15px;
+    margin-top: 21px;
+}
+
+.icon-img {
+    width: 100%;
+    height: auto;
+    margin: 100 50;
+}
+
+.menu h1 {
+    position: relative;
+    top: 0px;
+    left: 5px;
+    font-size: 35px;
+    font-family: Roboto-Bold;
+    margin-top: 15px;
+}
+
+.av {
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.avatar-img {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.avatar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin: 0 -5px;
+}
+
+.avatar p {
+    flex: 3 3 auto;
+    margin: 5px 10px;
+}
+
+#name {
+    font-size: 25px;
+}
+
+#email {
+    font-size: 17px;
+}
+
+.fa-ul a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 25px;
+}
+
+.fa-ul i {
+    margin-right: 15px;
+}
+
+.fa-ul li {
+    margin-bottom: 40px;
+}
+
+#bookmark {
+    margin-left: 3px;
+}
+
+#a {
+    margin-left: 5px;
+}
+
+#b {
+    margin-left: 2px;
+}
+
+#c {
+    margin-left: 11px;
+}
+
+#d {
+    margin-left: 7px;
+}
+
+.fa-ul {
+    text-align: left;
+    margin-top: 70px;
+}
+
+.content>div:nth-child(-n+4) {
+    display: none;
+}
+
+.tab:hover {
+    background-color: #b8cf69;
+    padding: 5px 5px;
+}
+
+.tab {
+    margin-right: 5px;
+    padding-left: 0px;
+    margin-bottom: 10px;
+}
+
+.fa-ul .active {
+    background-color: #699b2c;
+    padding: 5px 5px;
+}
+
+#conferences h2 {
+    margin-left: 380px;
+    margin-bottom: 20px;
+    padding-top: 30px;
+    font-size: 60px;
+    font-family: Roboto-Bold;
+    color: #fff;
+}
+
+#conferences div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#conferences button {
+    color: #fff;
+    background-color: #2d4a1a;
+    font-family: Roboto-Light;
+    border-radius: 20px;
+    border: 0;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    margin: 20px 50px;
+}
+
+.conference1,
+.conference2 {
+    color: #fff;
+    background-color: #2d4a1a;
+    font-family: Roboto-Light;
+    height: 250px;
+}
+
+.window {
+    float: left;
+    width: 100%;
+    background-repeat: no-repeat;
+    width: 320px;
+    height: 180px;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-left: 30px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+.info h3 {
+    font-size: 25px;
+}
+
+.info p {
+    font-size: 20px;
+}
+
+.info p,
+.info h3 {
+    margin: 3px 70px;
+}
+
+.create-conference {
+    color: #fff;
+    background-color: #2d4a1a;
+    font-family: Roboto-Light;
+    height: 50px;
+    font-size: 25px;
+}
+
+#create {
+    margin-left: 40px;
+}
+
+.create-conference i {
+    margin-left: 30px;
+}
