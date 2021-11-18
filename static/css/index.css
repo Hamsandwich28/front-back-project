@@ -1,47 +1,52 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
 @font-face {
     font-family: Roboto-Bold;
-    src: local(Roboto-Bold), url(Roboto-Bold.ttf);
+    src: local(Roboto-Bold), url(../font/Roboto-Bold.ttf);
 }
 
 @font-face {
     font-family: Roboto-Light;
-    src: local(Roboto-Light), url(Roboto-Light.ttf);
+    src: local(Roboto-Light), url(../font/Roboto-Light.ttf);
 }
 
 body {
-    min-height: 100vh;
     box-sizing: border-box;
     margin: 0;
-    background: url(greeting.jpg) center no-repeat;
-    background-size: 100% 100%;
+    background: url(../images/back.png) center no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
-.form {
-    background: rgba(184, 207, 105, 0.3);
-    width: 1600px;
-    height: 800px;
-    margin: auto;
-    margin-top: 50px;
-    border-radius: 20px;
-    font-family: Roboto-Light;
+.greeting {
+    background-image: url(../images/greeting.jpg);
+    background-size: cover;
+    padding-bottom: 80px;
 }
 
-.menu {
-    background: #2d4a1a;
-    width: 330px;
-    height: 800px;
-    border-radius: 20px;
-    font-family: Roboto-Light;
-    color: #fff;
+.greeting .icon {
     float: left;
+    width: 250px;
+    height: 250px;
+    margin-left: 30px;
+    margin-top: 60px;
 }
 
-.menu .icon {
-    float: left;
-    width: 55px;
-    height: 55px;
-    margin-left: 15px;
-    margin-top: 21px;
+.greeting .name {
+    position: relative;
+    top: 30px;
+    left: 10px;
 }
 
 .icon-img {
@@ -50,185 +55,244 @@ body {
     margin: 100 50;
 }
 
-.menu h1 {
-    position: relative;
-    top: 0px;
-    left: 5px;
-    font-size: 35px;
+.name h1 {
+    font-size: 60pt;
     font-family: Roboto-Bold;
-    margin-top: 15px;
+    color: #ffffff;
 }
 
-.av {
-    width: 70px;
-    height: 70px;
-    overflow: hidden;
-    border-radius: 50%;
-    margin: 0 auto;
+.name p {
+    font-size: 36pt;
+    color: #ffffff;
+    font-family: Roboto-Light;
 }
 
-.avatar-img {
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
+body::-webkit-scrollbar {
+    width: 12px;
+    background-color: #699b2c;
 }
 
-.avatar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    margin: 0 -5px;
+body::-webkit-scrollbar-track {
+    background: none;
 }
 
-.avatar p {
-    flex: 3 3 auto;
-    margin: 5px 10px;
+body::-webkit-scrollbar-thumb {
+    background-color: #b8cf69;
+    border-radius: 20px;
+    border: 1px solid #48575e;
 }
 
-#name {
-    font-size: 25px;
-}
-
-#email {
-    font-size: 17px;
-}
-
-.fa-ul a {
-    color: #fff;
+a {
     text-decoration: none;
-    font-size: 25px;
+    color: #1ab188;
 }
 
-.fa-ul i {
-    margin-right: 15px;
+a:hover {
+    color: #179b77;
 }
 
-.fa-ul li {
-    margin-bottom: 40px;
+.form {
+    background: #ffffff;
+    width: 700px;
+    min-height: 470px;
+    margin: auto;
+    margin-top: 30px;
+    border-radius: 20px;
+    font-family: Roboto-Light;
+    margin-bottom: 30px;
+    overflow: hidden;
 }
 
-#bookmark {
-    margin-left: 3px;
+.reg {
+    background: #ffffff;
+    width: 700px;
+    min-height: 600px;
+    margin: auto;
+    margin-top: 30px;
+    border-radius: 20px;
+    font-family: Roboto-Light;
+    overflow: hidden;
 }
 
-#a {
-    margin-left: 5px;
+.tab-group {
+    list-style: none;
+    padding: 0;
+    padding-bottom: 40px;
 }
 
-#b {
-    margin-left: 2px;
+.tab-group:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
-#c {
-    margin-left: 11px;
+.tab-group li a {
+    display: block;
+    text-decoration: none;
+    padding: 30px;
+    background: rgba(160, 179, 176, 0.25);
+    color: #a0b3b0;
+    font-size: 20px;
+    float: left;
+    width: 50%;
+    text-align: center;
+    cursor: pointer;
+    padding-bottom: 30px;
+    margin-bottom: 0px;
 }
 
-#d {
-    margin-left: 7px;
+.tab-group li a:hover {
+    background: #ffffff;
+    color: #000000;
+    border-radius: 100%;
 }
 
-.fa-ul {
-    text-align: left;
-    margin-top: 70px;
+.tab-group .active a {
+    background: #ffffff;
+    color: #000000;
+    border-radius: 100%;
 }
 
-.content>div:nth-child(-n+4) {
+.tab-content>div:last-child {
     display: none;
 }
 
-.tab:hover {
-    background-color: #b8cf69;
-    padding: 5px 5px;
+.field-wrap {
+    position: relative;
+    margin-bottom: 40px;
 }
 
-.tab {
-    margin-right: 5px;
-    padding-left: 0px;
-    margin-bottom: 10px;
+.field-wrap input,
+textarea {
+    font-size: 22px;
+    display: block;
+    margin: auto;
+    width: 630px;
+    height: 60px;
+    padding: 5px 10px;
+    border: 1px solid #a0b3b0;
+    color: #000000;
+    border-radius: 7px;
+    padding-left: 60px;
 }
 
-.fa-ul .active {
-    background-color: #699b2c;
-    padding: 5px 5px;
+.fname input,
+textarea {
+    font-size: 22px;
+    display: block;
+    margin: auto;
+    width: 630px;
+    height: 60px;
+    padding: 5px 10px;
+    border: 1px solid #a0b3b0;
+    color: #000000;
+    border-radius: 7px;
+    padding-left: 10px;
+    position: relative;
+    margin-bottom: 40px;
 }
 
-#conferences h2 {
-    margin-left: 380px;
-    margin-bottom: 20px;
-    padding-top: 30px;
-    font-size: 60px;
-    font-family: Roboto-Bold;
-    color: #fff;
-}
-
-#conferences div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#conferences button {
-    color: #fff;
-    background-color: #2d4a1a;
-    font-family: Roboto-Light;
-    border-radius: 20px;
-    border: 0;
-    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-    text-align: left;
-    margin: 20px 50px;
-}
-
-.conference1,
-.conference2 {
-    color: #fff;
-    background-color: #2d4a1a;
-    font-family: Roboto-Light;
-    height: 250px;
-}
-
-.window {
-    float: left;
-    width: 100%;
-    background-repeat: no-repeat;
-    width: 320px;
-    height: 180px;
-    overflow: hidden;
-    margin: 0 auto;
-    margin-left: 30px;
-}
-
-.info {
-    display: flex;
-    flex-direction: column;
-    margin-top: 40px;
-}
-
-.info h3 {
+.symbol {
+    position: absolute;
+    margin-left: 55px;
+    margin-top: 15px;
     font-size: 25px;
+    color: #a0b3b0;
 }
 
-.info p {
+.password-control {
+    position: absolute;
+    margin-right: 45px;
+    margin-top: 5px;
+    top: 11px;
+    right: 6px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: url(https://snipp.ru/demo/495/view.svg) 0 0 no-repeat;
+}
+
+.password-control.view {
+    background: url(https://snipp.ru/demo/495/no-view.svg) 0 0 no-repeat;
+}
+
+input:focus,
+textarea:focus {
+    outline: 0;
+    border-color: #a0b3b0;
+}
+
+textarea {
+    border: 2px solid #a0b3b0;
+    resize: vertical;
+}
+
+.remember-me {
+    /*width: 630px;*/
+    padding: 0 20px 0 0;
+    display: inline-block;
+    margin-left: 20px;
     font-size: 20px;
 }
 
-.info p,
-.info h3 {
-    margin: 3px 70px;
+.remember-me #text {
+    padding: 20px;
 }
 
-.create-conference {
-    color: #fff;
-    background-color: #2d4a1a;
-    font-family: Roboto-Light;
-    height: 50px;
-    font-size: 25px;
-}
-
-#create {
+#remChk {
     margin-left: 40px;
+    transform: scale(1.5);
+    opacity: 0.9;
+    cursor: pointer;
 }
 
-.create-conference i {
-    margin-left: 30px;
+.button {
+    border: 0;
+    outline: none;
+    margin: auto;
+    margin-top: 40px;
+    padding: 10px 0;
+    font-size: 2rem;
+    background: #699b2c;
+    color: #ffffff;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-appearance: none;
+    border-radius: 7px;
+    width: 630px;
+    height: 60px;
+}
+
+.button:hover,
+.button:focus {
+    background: #2d4a1a;
+}
+
+.button-block {
+    display: block;
+}
+
+/* 
+* FLASH -> SUCCESS -> ERROR 
+*/
+
+.flash {
+    width: 700px;
+    height: 80px;
+    margin: 20px auto;
+    padding-top: 20px;
+    border: 2px solid gray;
+    border-radius: 10px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.success {
+    background-color: lightgreen;
+    color: white;
+}
+
+.error {
+    background-color: red;
+    color: white;
 }

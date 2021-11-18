@@ -1,14 +1,14 @@
-<form action="/register" method="post">
+<form action="{{ url_for('login') }}" method="post">
                     {{ login_form.hidden_tag() }}
                     <div class="field-wrap">
                         <span class="symbol"><i class="fa-solid fa-envelope" aria-hidden="true"></i></span>
-                        {{ login_form.email_input() }}
+                        {{ login_form.email_login() }}
                     </div>
                     <div class="field-wrap">
                         <span class="symbol"><i class="fa-solid fa-key" aria-hidden="true"></i></span>
-                        {{ login_form.psw_input() }}
+                        {{ login_form.psw_login() }}
                         <a href="#" class="password-control" onclick="return show_hide_password(this);"></a>
                     </div>
-                    {{ login_form.remember_input() }}{{ login_form.remember_input.label(class='remember-me') }}
-                    {{ login_form.submit_input() }}
+                    {{ login_form.remember_login() }}{{ login_form.remember_login.label(class='remember-me') }}
+                    {{ login_form.submit_login() }}
                 </form>
