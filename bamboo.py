@@ -9,7 +9,7 @@ from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # self import
-from bamboo_forms import Loginform, Registerform
+from bamboo_forms import Loginform, Registerform, Createform
 from bamboo_database_test import BDatabaseTest
 from bamboo_userlogin import Userlogin, userify
 
@@ -144,7 +144,26 @@ def userava():
 @app.route('/profile')
 @login_required
 def profile():
+    dbase.get_conferences(current_user.get_id())
     return render_template('profile.html', title='Профиль')
+
+
+@app.route('/create_conference', methods=['GET', 'POST'])
+@login_required
+def create_conference():
+    create_form = Createform()
+
+    if create_form.validate_on_submit():
+        conf_data = {
+            'title': create_form.title_create.data,
+            'description': create_form.description_create.data,
+            'time_conf': f'{create_form.date_create.data} {create_form.time_create.data}',
+            'id_creator': current_user.get_id()
+        }
+        dbase.add_conference(**conf_data)
+
+    return render_template('create_conference.html',  title='Создание конференции',
+                           create_form=create_form)
 
 
 @app.route('/conference')

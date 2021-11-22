@@ -1,0 +1,15 @@
+{% extends "base.html" -%}
+
+{% block head -%}
+{{ super() }}
+    <!-- СТИЛИ -->
+{% endblock head -%}
+
+{% block content -%}
+    {% for cat, msg in get_flashed_messages(True) -%}
+    <div class="flash {{ cat }}">{{ msg }}</div>
+    {% endfor -%}
+
+    {% include "create_form.html" %}
+
+{% endblock content -%}

@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField, PasswordField
+from wtforms import StringField, SubmitField, BooleanField, PasswordField, TextAreaField
+from wtforms.fields.html5 import TimeField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 
@@ -26,7 +27,7 @@ class Registerform(FlaskForm):
                                        'autocomplete': 'off'})
 
     lname_reg = StringField("Фамилия", validators=[DataRequired(), Length(min=2, max=40)],
-                            render_kw={'placeholder': 'Фалилия',
+                            render_kw={'placeholder': 'Фамилия',
                                        'autocomplete': 'off'})
 
     email_reg = StringField("Почта", validators=[Email(), DataRequired(), Length(min=2, max=40)],
@@ -43,3 +44,22 @@ class Registerform(FlaskForm):
 
     submit_reg = SubmitField("Зарегистрироваться",
                              render_kw={'class': 'button button-block'})
+
+
+class Createform(FlaskForm):
+    title_create = StringField("Заголовок", validators=[DataRequired(), Length(min=1, max=59)],
+                               render_kw={'placeholder': 'Заголовок',
+                                          'autocomplete': 'off'})
+
+    description_create = TextAreaField("Описание",
+                                       render_kw={'placeholder': 'Описание',
+                                                  'autocomplete': 'off',
+                                                  'rows': '10', 'cols': '33'})
+
+    date_create = DateField("Выберите день", validators=[DataRequired()])
+
+    time_create = TimeField("Выберите время", validators=[DataRequired()])
+
+    submit_create = SubmitField("Создать",
+                                render_kw={})
+

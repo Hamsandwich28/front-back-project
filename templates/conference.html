@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    <h1>Flask-SocketIO Test</h1>
+    <div id="main-section">
+        <div id="rightside-panel">
+            <div id="display-message-section">
+
+            </div>
+            <div id="input-area">
+                <input type="text" id="user_message" placeholder="Type here..." autocomplete="off">
+                <button type="button" id="send_message">SEND</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        const username = `{{ username }}`;
+    </script>
+    <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='js/socketio.js') }}"></script>
+</body>
+</html>
