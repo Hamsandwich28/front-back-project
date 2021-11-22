@@ -4,7 +4,11 @@ from binascii import hexlify
 
 
 def userify(userdata):
-    id_user, email, pass_hash, lastname, firstname, avatar = userdata
+    if isinstance(userdata, tuple):
+        id_user, email, pass_hash, lastname, firstname, avatar = userdata
+    else:
+        id_user, email, pass_hash, lastname, firstname, avatar = userdata.values()
+
     return {
         'id_user': id_user,
         'email': email,
@@ -39,3 +43,17 @@ class Userlogin(UserMixin):
     def get_lname(self):
         self.__user = userify(self.__user)
         return self.__user['lastname'] if self.__user else 'Noname'
+
+    def get_avatar(self, app):
+        img = None
+        self.__user = userify(self.__user)
+        if not self.__user['avatar']:
+            try:
+                with app.open_resource(app.root_path + url_for('static', filename='images/default.png'), 'rb') as f:
+                    img = f.read()
+            except FileNotFoundError as e:
+                print("Standart file wasn't found. " + str(e))
+        else:
+            img = self.__user['avatar']
+
+        return img

@@ -2,8 +2,10 @@
 import os
 import psycopg2
 import configparser
-from flask import Flask, g, render_template, url_for, request, redirect, flash
+from time import localtime, strftime
+from flask import Flask, g, render_template, url_for, request, redirect, flash, make_response
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # self import
@@ -12,12 +14,9 @@ from bamboo_database_test import BDatabaseTest
 from bamboo_userlogin import Userlogin, userify
 
 # config
-DEBUG = True
-SECRET_KEY = 'kmgdtjnosfepplrgb7yjig8msvlbgftd5grevb'
-MAX_CONTENT_LENGTH = 1024 * 1024
-
 app = Flask(__name__)
-app.config.from_object(__name__)
+app.config['SECRET_KEY'] = 'kmgdtjnosfepplrgb7yjig8msvlbgftd5grevb'
+socketio = SocketIO(app)
 
 # database connection data
 conf_name = 'settings.ini'
@@ -130,11 +129,53 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/userava')
+@login_required
+def userava():
+    img = current_user.get_avatar(app)
+    if not img:
+        return ''
+
+    h = make_response(img)
+    h.headers['Content-Type'] = 'image/png'
+    return h
+
+
 @app.route('/profile')
 @login_required
 def profile():
     return render_template('profile.html', title='Профиль')
 
 
+@app.route('/conference')
+@login_required
+def conference():
+    username = ' '.join([current_user.get_fname(), current_user.get_lname()])
+    return render_template('conference.html', title='Конференция',
+                           username=username)
+
+
+@socketio.on('message')
+def message(data):
+    print(f'\n{data}\n')
+    send({
+        'msg': data['msg'],
+        'username': data['username'],
+        'time_spamp': strftime('%b-%d %I:%M%p', localtime())
+    })
+
+
+@socketio.on('join')
+def join(data):
+    join_room(data['room'])
+    send({'msg': f"{data['username']} присоединился к {data['room']}"}, room=data['room'])
+
+
+@socketio.on('leave')
+def leave(data):
+    leave_room(data['room'])
+    send({'msg': f"{data['username']} вышел из {data['room']}"}, room=data['room'])
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app)

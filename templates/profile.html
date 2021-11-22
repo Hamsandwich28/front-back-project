@@ -10,9 +10,39 @@
     <div class="flash {{ cat }}">{{ msg }}</div>
     {% endfor %}
 
-    <p><a href="{{ url_for('logout') }}">Выйти из профиля</a></p>
-    <p>Email: {{ current_user.get_email() }}</p>
-    <p>Firstname: {{ current_user.get_fname() }}</p>
-    <p>Lastname: {{ current_user.get_lname() }}</p>
+    <div class="form">
+        <div class="menu">
+            <div class="icon">
+                <img src="{{ url_for('static', filename='images/logo_outline.png') }}"
+                class="icon-img">
+            </div>
+            <h1>BAMBOO</h1>
+            <div class="avatar">
+                <div class="av">
+                    <img src="{{ url_for('userava') }}" alt="USER_PIC" class="avatar-img">
+                </div>
+                <p id="name">{{ current_user.get_fname()}} {{ current_user.get_lname() }}</p>
+                <p id="email">{{ current_user.get_email()}}</p>
+                <ul class="fa-ul">
+                    <li class="tab">
+                        <a href="">
+                            <i class="fas fa-cog"></i>
+                            <span id="b">Настройка</span>
+                        </a>
+                    </li>
+                    <li class="tab">
+                        <a href="{{ url_for('conference') }}">
+                            <i class="fas fa-edit"></i>
+                            <span id="create">Пустой чат</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="conferences"></div>
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='js/mainpage.js') }}"></script>
 {% endblock content -%}
