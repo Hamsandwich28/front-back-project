@@ -133,9 +133,9 @@ body {
     margin-top: 70px;
 }
 
-.content>div:nth-child(-n+4) {
+/* .content>div:nth-child(-n+4) {
     display: none;
-}
+} */
 
 .tab:hover {
     background-color: #b8cf69;

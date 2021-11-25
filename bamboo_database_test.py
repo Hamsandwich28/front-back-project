@@ -1,6 +1,25 @@
 # system import
 import psycopg2
+from datetime import datetime, timedelta
 from iteration_utilities import deepflatten
+
+
+def conference_view(datalist):
+    if type(datalist) is list:
+        conf_data = [{
+            'id_conf': row[0],
+            'title': row[1],
+            'description': row[2],
+            'time_conf': row[3],
+            'creator_lastname': row[4],
+            'creator_firstname': row[5],
+            'id_creator': row[6],
+            'is_active': row[3] <= datetime.now() <= row[3] + timedelta(hours=1)
+        } for row in datalist]
+
+        return conf_data
+    else:
+        raise TypeError("Тип должен быть списком")
 
 
 class BDatabaseTest:
@@ -83,26 +102,66 @@ class BDatabaseTest:
 
         return False
 
+    def get_conference(self, id_conf):
+        try:
+            sql = f"""
+            SELECT * FROM conferences
+            WHERE id_conf = {id_conf}
+            LIMIT 1;"""
+            self.__cur.execute(sql)
+            res = self.__cur.fetchone()
+            if res:
+                res = conference_view([res]).pop()
+                return res
+        except psycopg2.Error as e:
+            print('Ошибка чтения записи конференции -> ', e)
+
+        return False
+
+    def is_conf_member(self, id_conf, id_user):
+        try:
+            sql = f"""
+            SELECT * FROM user_conf
+            WHERE id_user = {id_user}
+            AND id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            res = self.__cur.fetchone()
+            if res:
+                return True
+        except psycopg2.Error as e:
+            print('Ошибка чтения -> ', e)
+
+        return False
+
     def get_conferences(self, id_user):
         try:
-            sql = f'''
-            SELECT conferences.id_conf, title, description, time_conf, lastname, firstname
+            sql = f"""
+            SELECT conferences.id_conf, title, description, time_conf, lastname, firstname, id_creator
             FROM user_conf JOIN conferences ON user_conf.id_conf = conferences.id_conf
             JOIN users ON conferences.id_creator = users.id_user
-            WHERE user_conf.id_user = {id_user};'''
+            WHERE user_conf.id_user = {id_user};"""
             self.__cur.execute(sql)
             res = self.__cur.fetchall()
-            conf_data = [{
-                'id_conf': row[0],
-                'title': row[1],
-                'description': row[2],
-                'time_conf': row[3],
-                'creator_lastname': row[4],
-                'creator_firstname': row[5]
-            } for row in res]
+            conf_data = conference_view(res)
 
             return conf_data
         except psycopg2.Error as e:
             print('Ошибка чтения записей конференций -> ', e)
+
+        return False
+
+    def add_members_conference(self, id_conf, email):
+        try:
+            sql = f"""
+            SELECT id_user FROM users
+            WHERE email = '{email}';"""
+            self.__cur.execute(sql)
+            res = deepflatten(self.__cur.fetchone()).pop()
+            print(res)
+
+            return False
+
+        except psycopg2.Error as e:
+            print('Ошибка добавления записей конференций -> ', e)
 
         return False

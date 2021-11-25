@@ -36,19 +36,24 @@
                             <span id="create">Создать конференцию</span>
                         </a>
                     </li>
-                    <li class="tab">
-                        <a href="{{ url_for('conference') }}">
-                            <i class="fas fa-edit"></i>
-                            <span id="create">Пустой чат</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>
 
         <div class="content">
-            <div id="conferences"></div>
+            <div id="conferences">
+                <ul>
+                {% for conf in conferences -%}
+                    <li>
+                        <a href="/conference/{{ conf.id_conf }}">{{ conf.title | title}}</a>
+                        {% if id_user == conf.id_creator -%}
+                        | <a href="/conference/{{ conf.id_conf }}/edit">Изменить</a>
+                        {% endif -%}
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/mainpage.js') }}"></script>
-{% endblock content -%}
+{% endblock content -%} 

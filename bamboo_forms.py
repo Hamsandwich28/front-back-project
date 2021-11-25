@@ -63,3 +63,8 @@ class Createform(FlaskForm):
     submit_create = SubmitField("Создать",
                                 render_kw={})
 
+
+class Editform(FlaskForm):
+    email_edit = StringField("Введите почту: ", validators=[Email(), DataRequired()])
+
+    submit_edit = SubmitField("Добавить в конференцию")

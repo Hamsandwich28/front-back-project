@@ -3,13 +3,15 @@ import os
 import psycopg2
 import configparser
 from time import localtime, strftime
-from flask import Flask, g, render_template, url_for, request, redirect, flash, make_response
+from flask import Flask, g, render_template, url_for, request, \
+    redirect, flash, make_response, jsonify
+from flask_cors import CORS
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # self import
-from bamboo_forms import Loginform, Registerform, Createform
+from bamboo_forms import Loginform, Registerform, Createform, Editform
 from bamboo_database_test import BDatabaseTest
 from bamboo_userlogin import Userlogin, userify
 
@@ -17,6 +19,7 @@ from bamboo_userlogin import Userlogin, userify
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kmgdtjnosfepplrgb7yjig8msvlbgftd5grevb'
 socketio = SocketIO(app)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 # database connection data
 conf_name = 'settings.ini'
@@ -144,8 +147,9 @@ def userava():
 @app.route('/profile')
 @login_required
 def profile():
-    dbase.get_conferences(current_user.get_id())
-    return render_template('profile.html', title='Профиль')
+    conferences = dbase.get_conferences(current_user.get_id())
+    return render_template('profile.html', title='Профиль', conferences=conferences,
+                           id_user=int(current_user.get_id()))
 
 
 @app.route('/create_conference', methods=['GET', 'POST'])
@@ -166,34 +170,47 @@ def create_conference():
                            create_form=create_form)
 
 
-@app.route('/conference')
+@app.route('/conference/<id_conf>')
 @login_required
-def conference():
-    username = ' '.join([current_user.get_fname(), current_user.get_lname()])
-    return render_template('conference.html', title='Конференция',
-                           username=username)
+def chat_room(id_conf):
+    conference = dbase.get_conference(id_conf)
+    if conference and dbase.is_conf_member(id_conf, current_user.get_id()):
+        fullname = f"{current_user.get_lname()} {current_user.get_fname()}"
+        return render_template('chat_room.html', title=f"{conference['title']}",
+                               username=fullname, conference=conference)
+    else:
+        flash("Вы не являетесь членом этого чата.", category='error')
+        return redirect(url_for('profile'))
 
 
-@socketio.on('message')
-def message(data):
-    print(f'\n{data}\n')
-    send({
-        'msg': data['msg'],
-        'username': data['username'],
-        'time_spamp': strftime('%b-%d %I:%M%p', localtime())
-    })
+@app.route('/conference/<id_conf>/edit', methods=['GET'])
+@login_required
+def chat_edit(id_conf):
+    editform = Editform()
+    conference = dbase.get_conference(id_conf)
+    if conference and dbase.is_conf_member(id_conf, current_user.get_id()):
+        return render_template('chat_edit.html', title=f"{conference['title']}",
+                               conference=conference, chat_edit_form=editform)
+    else:
+        return redirect(url_for('profile'))
 
 
 @socketio.on('join')
-def join(data):
-    join_room(data['room'])
-    send({'msg': f"{data['username']} присоединился к {data['room']}"}, room=data['room'])
+def handle_join(data):
+    join_room(data['conference'])
+    socketio.emit('join_announcement', data, room=data['conference'])
 
 
 @socketio.on('leave')
-def leave(data):
-    leave_room(data['room'])
-    send({'msg': f"{data['username']} вышел из {data['room']}"}, room=data['room'])
+def handle_leave(data):
+    leave_room(data['conference'])
+    socketio.emit('leave_announcement', data, room=data['conference'])
+
+
+@socketio.on('send_message')
+def handle_send_message(data):
+    socketio.emit('receive_message', data, room=data['conference'])
+    send(data['message'], broadcast=True)
 
 
 if __name__ == '__main__':

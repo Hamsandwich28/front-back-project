@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block head -%}
+{{ super() }}
+<!-- CSS -->
+{% endblock head -%}
+
+{% block content -%}
+<a href="{{ url_for('profile') }}">Назад</a>
+<p>Добавьте пользователей введя их почту</p>
+{% include "chat_edit_form.html" %}
+
+{% endblock content -%}
