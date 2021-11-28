@@ -1,7 +1,14 @@
-{% extends "base.html" %} {% block head -%} {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/chat_room.css') }}"> {% endblock head -%} {% block content -%}
-<div id="main-section">
+{% extends "base.html" %}
 
+{% block head -%}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/chat_room.css') }}">
+{% endblock head -%}
+
+{% block content -%}
+<a href="{{ url_for('profile') }}">Назад</a>
+<h2>{{ conference.title }}</h2>
+<div id="main-section">
     <div id="chat">
         <ul id="messages"></ul>
         <div id="input-area">
@@ -9,11 +16,6 @@
             <button type="button" id="send_msg" value="Send"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </div>
-</div>
-<div class="chat">
-    <ul id="messages"></ul>
-    <input type="text" id="send_text" placeholder="Type here...">
-    <input type="button" id="send_msg" value="Send">
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
 <script>
