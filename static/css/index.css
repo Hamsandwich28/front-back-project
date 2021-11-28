@@ -272,6 +272,7 @@ textarea {
     display: block;
 }
 
+
 /* 
 * FLASH -> SUCCESS -> ERROR 
 */
@@ -289,10 +290,12 @@ textarea {
 
 .success {
     background-color: lightgreen;
+    font-family: Roboto-Light;
     color: white;
 }
 
 .error {
-    background-color: red;
+    background-color: pink;
+    font-family: Roboto-Light;
     color: white;
 }

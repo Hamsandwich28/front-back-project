@@ -6,9 +6,15 @@
 {% endblock head -%}
 
 {% block content -%}
-<a href="{{ url_for('profile') }}">Назад</a>
-<h2>{{ conference.title }}</h2>
+
 <div id="main-section">
+        <div>
+            <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a>
+            </button>
+        </div>
+        <div id="conference">
+            <h2>{{ conference.title }}</h2>
+        </div>
     <div id="chat">
         <ul id="messages"></ul>
         <div id="input-area">

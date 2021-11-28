@@ -1,10 +1,35 @@
+@font-face {
+    font-family: Roboto-Bold;
+    src: local(Roboto-Bold), url(Roboto-Bold.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Light;
+    src: local(Roboto-Light), url(Roboto-Light.ttf);
+}
+
 body {
     min-height: 100vh;
     box-sizing: border-box;
     margin: 0;
     background: url(greeting.jpg) center no-repeat;
     background-size: cover;
-    overflow: hidden;
+    overflow: scroll;
+}
+
+body::-webkit-scrollbar {
+    width: 12px;
+    background-color: #699b2c;
+}
+
+body::-webkit-scrollbar-track {
+    background: none;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #b8cf69;
+    border-radius: 20px;
+    border: 1px solid #48575e;
 }
 
 #main-section {
@@ -14,22 +39,22 @@ body {
     margin: auto;
     margin-top: 50px;
     border-radius: 20px;
-    font-family: Roboto-Light;
+    display: flex;
+    align-items: flex-start;
 }
 
 #chat {
     background: #2d4a1a;
     width: 400px;
     height: 800px;
-    margin-left: 1200px;
     border-radius: 20px;
     font-family: Roboto-Light;
     color: #fff;
-    float: left;
 }
 
 #input-area input,
 textarea {
+    overflow: hidden;
     font-size: 22px;
     margin: auto;
     margin-top: 740px;
@@ -67,7 +92,6 @@ input::-moz-placeholder {
 }
 
 #send_msg {
-    position: relative;
     border: 0;
     outline: none;
     margin: auto;
@@ -88,4 +112,49 @@ input::-moz-placeholder {
 #send_msg:hover,
 #send_msg:focus {
     background: #2d4a1a;
+}
+
+#back {
+    border: 0;
+    outline: none;
+    margin: auto;
+    padding-top: 3px;
+    padding: 10px 0;
+    font-size: 20px;
+    background: #699b2c;
+    color: #ffffff;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-appearance: none;
+    border-radius: 20px;
+    width: 80px;
+    height: 50px;
+}
+
+#back:hover,
+#back:focus {
+    background: #2d4a1a;
+}
+
+#back a:link,
+#back a:visited,
+#back a:active {
+    color: #ffffff;
+    font-family: Roboto-Light;
+    text-decoration: none;
+}
+
+h2 {
+    color: #ffffff;
+    font-size: 30px;
+    font-family: Roboto-Bold;
+}
+
+#conference {
+    width: 1120px;
+    text-align: center;
+}
+
+#messages {
+    position: fixed;
 }
