@@ -1,11 +1,15 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block head -%} {{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/chat_room.css') }}"> {% endblock head -%} {% block content -%}
+<div id="main-section">
 
-{% block head -%}
-{{ super() }}
-<!-- CSS -->
-{% endblock head -%}
-
-{% block content -%}
+    <div id="chat">
+        <ul id="messages"></ul>
+        <div id="input-area">
+            <input type="text" id="send_text" placeholder="Введите сообщение..." autocomplete="off">
+            <button type="button" id="send_msg" value="Send"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
 <div class="chat">
     <ul id="messages"></ul>
     <input type="text" id="send_text" placeholder="Type here...">
@@ -14,57 +18,57 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
 
-    socket.on('connect', () => {
-        socket.emit('join', {
-            username: "{{ username }}",
-            conference: "{{ conference.id_conf }}"
+        socket.on('connect', () => {
+            socket.emit('join', {
+                username: "{{ username }}",
+                conference: "{{ conference.id_conf }}"
+            });
+
+            let message_input = document.querySelector('#send_text');
+            document.querySelector('#send_msg').onclick = (e) => {
+                let message = message_input.value;
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        conference: "{{ conference.id_conf }}",
+                        message: message
+                    })
+                }
+                message_input.value = "";
+                message_input.focus();
+            }
         });
 
-        let message_input = document.querySelector('#send_text');
-        document.querySelector('#send_msg').onclick = (e) => {
-            let message = message_input.value;
-            if (message.length) {
-                socket.emit('send_message', {
-                    username: "{{ username }}",
-                    conference: "{{ conference.id_conf }}",
-                    message: message
-                })
-            }
-            message_input.value = "";
-            message_input.focus();
-        }
-    });
+        window.onbeforeunload = () => {
+            socket.emit('leave', {
+                username: "{{ username }}",
+                conference: "{{ conference.id_conf }}"
+            })
+        };
 
-    window.onbeforeunload = () => {
-        socket.emit('leave', {
-            username: "{{ username }}",
-            conference: "{{ conference.id_conf }}"
-        })
-    };
+        socket.on('receive_message', data => {
+            console.log(data);
+            const new_message = document.createElement('p')
+            new_message.innerHTML = `<b>${data.username}</b> ${data.message}`;
+            document.querySelector('#messages').appendChild(new_message);
+        });
 
-    socket.on('receive_message', data => {
-        console.log(data);
-        const new_message = document.createElement('p')
-        new_message.innerHTML = `<b>${data.username}</b> ${data.message}`;
-        document.querySelector('#messages').appendChild(new_message);
-    });
+        socket.on('join_announcement', data => {
+            console.log(data);
+            const new_message = document.createElement('p');
+            new_message.innerHTML = `<b>${data.username} зашёл в чат.</b>`;
+            document.querySelector('#messages').appendChild(new_message);
+        });
 
-    socket.on('join_announcement', data => {
-        console.log(data);
-        const new_message = document.createElement('p');
-        new_message.innerHTML = `<b>${data.username} зашёл в чат.</b>`;
-        document.querySelector('#messages').appendChild(new_message);
+        socket.on('leave_announcement', data => {
+            console.log(data);
+            const new_message = document.createElement('p');
+            new_message.innerHTML = `<b>${data.username} вышел из чата.</b>`;
+            document.querySelector('#messages').appendChild(new_message);
+        });
     });
-
-    socket.on('leave_announcement', data => {
-        console.log(data);
-        const new_message = document.createElement('p');
-        new_message.innerHTML = `<b>${data.username} вышел из чата.</b>`;
-        document.querySelector('#messages').appendChild(new_message);
-    });
-});
 </script>
 
 {% endblock content -%}
