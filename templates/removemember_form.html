@@ -1,0 +1,8 @@
+<form action="/conference/{{ conference.id_conf }}/remove" method="post">
+    {{ removemember_form.hidden_tag() }}
+    <div class="field">
+        {{ removemember_form.email_remove.label() }}
+        {{ removemember_form.email_remove() }}
+    </div>
+    {{ removemember_form.submit_remove() }}
+</form>

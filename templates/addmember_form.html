@@ -1,0 +1,8 @@
+<form action="/conference/{{ conference.id_conf }}/add" method="post">
+    {{ addmember_form.hidden_tag() }}
+    <div class="field">
+        {{ addmember_form.email_add.label() }}
+        {{ addmember_form.email_add() }}
+    </div>
+    {{ addmember_form.submit_add() }}
+</form>

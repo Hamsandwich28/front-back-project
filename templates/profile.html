@@ -23,9 +23,10 @@
                 </div>
                 <p id="name">{{ current_user.get_fname()}} {{ current_user.get_lname() }}</p>
                 <p id="email">{{ current_user.get_email()}}</p>
+                <a href="{{ url_for('logout') }}">Выйти</a>
                 <ul class="fa-ul">
                     <li class="tab">
-                        <a href="">
+                        <a href="{{ url_for('edit_profile') }}">
                             <i class="fas fa-cog"></i>
                             <span id="b">Настройка</span>
                         </a>
@@ -45,10 +46,19 @@
                 <ul>
                 {% for conf in conferences -%}
                     <li>
-                        <a href="/conference/{{ conf.id_conf }}">{{ conf.title | title}}</a>
-                        {% if id_user == conf.id_creator -%}
-                        | <a href="/conference/{{ conf.id_conf }}/edit">Изменить</a>
-                        {% endif -%}
+                        <div class="conference-info">
+                            <div class="info">
+                                <span class="title">{{ conf.title | title }}</span>
+                                <div class="preview-image"><img src="" alt="PLACEHOLDER" class="preview-image"></div>
+                                <div class="description">{{ conf.description | title }}</div>
+                                <div class="creator-name">NAME</div>
+                                <div class="conf-time">TIME</div>
+                            </div>
+                            <a href="/conference/{{ conf.id_conf }}" class="connect-to">Войти</a>
+                            {% if id_user == conf.id_creator -%}
+                            <a href="/conference/{{ conf.id_conf }}/edit" class="change-conf">Изменить</a>
+                            {% endif -%}
+                        </div>
                     </li>
                 {% endfor %}
                 </ul>

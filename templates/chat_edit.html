@@ -6,8 +6,41 @@
 {% endblock head -%}
 
 {% block content -%}
+{% for cat, msg in get_flashed_messages(True) -%}
+    <div class="flash {{ cat }}">{{ msg }}</div>
+{% endfor %}
 <a href="{{ url_for('profile') }}">Назад</a>
-<p>Добавьте пользователей введя их почту</p>
-{% include "chat_edit_form.html" %}
+<div class="conference-data">
+    <div class="data-row">
+        <span class="name-row">Название конференции</span>
+        <span class="info-row">{{ conference['title'] }}</span>
+    </div>
+    <div class="data-row">
+        <span class="name-row">Описание конференции</span>
+        <span class="info-row">{{ conference['description'] }}</span>
+    </div>
+    <div class="data-row">
+        <span class="name-row">Время старта</span>
+        <span class="info-row">{{ conference['time_conf'] }}</span>
+    </div>
+</div>
+<br>
+<div class="conference-members">
+    {% for member in members -%}
+    <div class="member-row" id="user{{ loop.index }}">
+        <span id="member_lname{{ loop.index }}">{{ member.lastname }}</span>
+        <span id="member_fname{{ loop.index }}">{{ member.firstname }}</span>
+        <span id="member_email{{ loop.index }}">{{ member.email }}</span>
+        <button class="remove-user" id="remove{{ loop.index }}">Удалить</button>
+    </div>
+    {% endfor -%}
+</div>
+<div class="change-form">
+    <p>Введите почту пользователя для добавления его в конференцию</p>
+    {% include "addmember_form.html" %}
+    <hr>
+    <p>Введите почту пользователя для удаления его из конференции</p>
+    {% include "removemember_form.html" %}
+</div>
 
 {% endblock content -%}

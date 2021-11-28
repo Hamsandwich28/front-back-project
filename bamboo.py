@@ -11,7 +11,7 @@ from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # self import
-from bamboo_forms import Loginform, Registerform, Createform, Editform
+from bamboo_forms import Loginform, Registerform, Createform, Addform, Removeform
 from bamboo_database_test import BDatabaseTest
 from bamboo_userlogin import Userlogin, userify
 
@@ -30,6 +30,8 @@ dbase = None
 # login manager
 login_manager = LoginManager(app)
 login_manager.login_view = 'index'
+login_manager.login_message = 'Пожалуйста, авторизуйтесь на сайте'
+login_manager.login_message_category = 'error'
 
 
 @login_manager.user_loader
@@ -152,6 +154,12 @@ def profile():
                            id_user=int(current_user.get_id()))
 
 
+@app.route('/profile_edit')
+@login_required
+def edit_profile():
+    return redirect(url_for('profile'))
+
+
 @app.route('/create_conference', methods=['GET', 'POST'])
 @login_required
 def create_conference():
@@ -186,13 +194,63 @@ def chat_room(id_conf):
 @app.route('/conference/<id_conf>/edit', methods=['GET'])
 @login_required
 def chat_edit(id_conf):
-    editform = Editform()
+    addform = Addform()
+    removeform = Removeform()
     conference = dbase.get_conference(id_conf)
     if conference and dbase.is_conf_member(id_conf, current_user.get_id()):
-        return render_template('chat_edit.html', title=f"{conference['title']}",
-                               conference=conference, chat_edit_form=editform)
-    else:
-        return redirect(url_for('profile'))
+        member_list = dbase.get_members_conference(id_conf)
+        members = [{
+            'lastname': row[0],
+            'firstname': row[1],
+            'email': row[2]
+             } for row in member_list]
+        return render_template('chat_edit.html', title=f"{conference['title']} EDIT",
+                               conference=conference, members=members,
+                               addmember_form=addform, removemember_form=removeform)
+
+    return redirect(url_for('profile'))
+
+
+@app.route('/conference/<id_conf>/add', methods=['POST'])
+@login_required
+def chat_add_member(id_conf):
+    addform = Addform()
+    if addform.validate_on_submit():
+        email = addform.email_add.data
+        user_data = dbase.get_user_by_email(email)
+        if user_data:
+            id_user, *other = user_data
+            if dbase.check_member_conference(id_user, id_conf):
+                flash("Пользователь уже в конференции", category='success')
+            else:
+                dbase.add_member_conference(id_user, id_conf)
+                flash("Пользователь добавлен", category='success')
+        else:
+            flash("Пользователь не найден", category='error')
+
+    return redirect(url_for('chat_edit', id_conf=id_conf))
+
+
+@app.route('/conference/<id_conf>/remove', methods=['POST'])
+@login_required
+def chat_remove_member(id_conf):
+    removeform = Removeform()
+    if removeform.validate_on_submit():
+        email = removeform.email_remove.data
+        user_data = dbase.get_user_by_email(email)
+        if user_data:
+            id_user, *other = user_data
+            if dbase.check_member_conference(id_user, id_conf):
+                if dbase.remove_member_conference(id_user, id_conf):
+                    flash("Пользователь удалён из конференции", category='success')
+                else:
+                    flash("Пользователь не мог быть удалён.", category='error')
+            else:
+                flash("Пользователя нет в конференции", category='error')
+        else:
+            flash("Пользователь не найден", category='error')
+
+    return redirect(url_for('chat_edit', id_conf=id_conf))
 
 
 @socketio.on('join')

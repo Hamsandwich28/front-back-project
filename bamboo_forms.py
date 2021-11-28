@@ -64,7 +64,13 @@ class Createform(FlaskForm):
                                 render_kw={})
 
 
-class Editform(FlaskForm):
-    email_edit = StringField("Введите почту: ", validators=[Email(), DataRequired()])
+class Addform(FlaskForm):
+    email_add = StringField("Введите почту: ", validators=[DataRequired()])
 
-    submit_edit = SubmitField("Добавить в конференцию")
+    submit_add = SubmitField("Добавить в конференцию")
+
+
+class Removeform(FlaskForm):
+    email_remove = StringField("Введите почту: ", validators=[DataRequired()])
+
+    submit_remove = SubmitField("Убрать из конференции")

@@ -6,6 +6,7 @@
 {% endblock head -%}
 
 {% block content -%}
+    <a href="{{ url_for('profile') }}">Назад</a>
     {% for cat, msg in get_flashed_messages(True) -%}
     <div class="flash {{ cat }}">{{ msg }}</div>
     {% endfor -%}

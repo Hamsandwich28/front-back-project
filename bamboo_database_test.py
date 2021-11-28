@@ -150,18 +150,81 @@ class BDatabaseTest:
 
         return False
 
-    def add_members_conference(self, id_conf, email):
+    def check_member_conference(self, id_user, id_conf):
         try:
             sql = f"""
-            SELECT id_user FROM users
-            WHERE email = '{email}';"""
+            SELECT COUNT(*) FROM user_conf
+            WHERE id_user = {id_user}
+            AND id_conf = {id_conf};"""
             self.__cur.execute(sql)
-            res = deepflatten(self.__cur.fetchone()).pop()
-            print(res)
-
-            return False
+            res = self.__cur.fetchone()
+            if int(*res) > 0:
+                return True
 
         except psycopg2.Error as e:
+            print('Ошибка чтения записей конференций -> ', e)
+
+        return False
+
+    def add_member_conference(self, id_user, id_conf):
+        try:
+            sql = """
+            INSERT INTO user_conf
+            VALUES(%s, %s);"""
+            self.__cur.execute(sql, (id_user, id_conf))
+            self.__db.commit()
+
+            return True
+        except psycopg2.Error as e:
+            self.__db.rollback()
+            print('Ошибка добавления записей конференций -> ', e)
+
+        return False
+
+    def get_creator_id_conference(self, id_conf):
+        try:
+            sql = f"""
+            SELECT users.id_user
+            FROM users JOIN conferences ON users.id_user = conferences.id_creator
+            WHERE conferences.id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            res = list(deepflatten(self.__cur.fetchall()))
+            if res:
+                return res.pop()
+        except psycopg2.Error as e:
+            print('Ошибка добавления записей конференций -> ', e)
+
+        return False
+
+    def get_members_conference(self, id_conf):
+        try:
+            sql = f"""
+            SELECT users.lastname, users.firstname, users.email
+            FROM user_conf JOIN users ON user_conf.id_user = users.id_user
+            WHERE id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            res = self.__cur.fetchall()
+
+            return res
+        except psycopg2.Error as e:
+            print('Ошибка добавления записей конференций -> ', e)
+
+        return False
+
+    def remove_member_conference(self, id_user, id_conf):
+        try:
+            if id_user == self.get_creator_id_conference(id_conf):
+                return False
+            sql = f"""
+            DELETE FROM user_conf
+            WHERE id_user = {id_user}
+            AND id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            self.__db.commit()
+
+            return True
+        except psycopg2.Error as e:
+            self.__db.rollback()
             print('Ошибка добавления записей конференций -> ', e)
 
         return False
