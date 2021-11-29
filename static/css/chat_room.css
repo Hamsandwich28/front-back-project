@@ -1,18 +1,18 @@
 @font-face {
     font-family: Roboto-Bold;
-    src: local(Roboto-Bold), url(Roboto-Bold.ttf);
+    src: local(Roboto-Bold), url(../font/Roboto-Bold.ttf);
 }
 
 @font-face {
     font-family: Roboto-Light;
-    src: local(Roboto-Light), url(Roboto-Light.ttf);
+    src: local(Roboto-Light), url(../font/Roboto-Light.ttf);
 }
 
 body {
     min-height: 100vh;
     box-sizing: border-box;
     margin: 0;
-    background: url(greeting.jpg) center no-repeat;
+    background: url(../images/greeting.jpg) center no-repeat;
     background-size: cover;
     overflow: hidden;
 }

@@ -8,6 +8,11 @@
     src: local(Roboto-Light), url(../font/Roboto-Light.ttf);
 }
 
+@font-face {
+    font-family: PermanentMarker-Regular;
+    src: url(../font/PermanentMarker-Regular.ttf);
+}
+
 body {
     min-height: 100vh;
     box-sizing: border-box;
@@ -55,7 +60,7 @@ body {
     top: 0px;
     left: 5px;
     font-size: 35px;
-    font-family: Roboto-Bold;
+    font-family: PermanentMarker-Regular;
     margin-top: 15px;
 }
 
