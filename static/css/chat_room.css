@@ -14,22 +14,7 @@ body {
     margin: 0;
     background: url(greeting.jpg) center no-repeat;
     background-size: cover;
-    overflow: scroll;
-}
-
-body::-webkit-scrollbar {
-    width: 12px;
-    background-color: #699b2c;
-}
-
-body::-webkit-scrollbar-track {
-    background: none;
-}
-
-body::-webkit-scrollbar-thumb {
-    background-color: #b8cf69;
-    border-radius: 20px;
-    border: 1px solid #48575e;
+    overflow: hidden;
 }
 
 #main-section {
@@ -157,4 +142,24 @@ h2 {
 
 #messages {
     position: fixed;
+}
+
+#messages_area {
+    overflow-y: scroll;
+    overflow: hidden;
+}
+
+#messages_area::-webkit-scrollbar {
+    width: 12px;
+    background-color: #699b2c;
+}
+
+#messages_area::-webkit-scrollbar-track {
+    background: none;
+}
+
+#messages_area::-webkit-scrollbar-thumb {
+    background-color: #b8cf69;
+    border-radius: 20px;
+    border: 1px solid #48575e;
 }
