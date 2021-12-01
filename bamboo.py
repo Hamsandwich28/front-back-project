@@ -11,13 +11,14 @@ from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # self import
-from bamboo_forms import Loginform, Registerform, Createform, Addform, Removeform
+from bamboo_forms import Loginform, Registerform, Createform, Addform, Removeform, Changepasswordform
 from bamboo_database_test import BDatabaseTest
 from bamboo_userlogin import Userlogin, userify
 
 # config
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kmgdtjnosfepplrgb7yjig8msvlbgftd5grevb'
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 socketio = SocketIO(app)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -75,6 +76,8 @@ def close_db(error):
 def index():
     login_form = Loginform()
     reg_form = Registerform()
+    if current_user.is_authenticated:
+        return redirect(url_for('profile'))
 
     return render_template('index.html', title='Вход и авторизация',
                            login_form=login_form, reg_form=reg_form)
@@ -97,10 +100,11 @@ def login():
             userlogin = Userlogin().create(user)
             rem = login_form.remember_login.data
             login_user(userlogin, remember=rem)
-            # request.args.get('next') or url_for('profile')
-            return redirect(url_for('profile'))
+            return redirect(request.args.get('next') or url_for('profile'))
         else:
             flash('Неверный логин или пароль', category='error')
+    else:
+        flash('Неверный ввод полей', category='error')
 
     return redirect(url_for('index'))
 
@@ -123,7 +127,7 @@ def register():
             flash('Пользователь с данной почтой уже зарегистрирован',
                   category='error')
 
-    return redirect(url_for('index'))
+    return redirect(url_for('profile'))
 
 
 @app.route('/logout')
@@ -154,12 +158,6 @@ def profile():
                            id_user=int(current_user.get_id()))
 
 
-@app.route('/profile_edit')
-@login_required
-def edit_profile():
-    return redirect(url_for('profile'))
-
-
 @app.route('/create_conference', methods=['GET', 'POST'])
 @login_required
 def create_conference():
@@ -177,6 +175,52 @@ def create_conference():
 
     return render_template('create_conference.html',  title='Создание конференции',
                            create_form=create_form)
+
+
+@app.route('/settings')
+@login_required
+def settings():
+    changepassword = Changepasswordform()
+    return render_template('settings.html', title="Настройка пользователя", change_password_form=changepassword)
+
+
+@app.route('/change_password', methods=['POST'])
+@login_required
+def change_password():
+    changepassword = Changepasswordform()
+
+    if changepassword.validate_on_submit():
+        current_pass = changepassword.old_change.data
+        new_pass = changepassword.psw_change.data
+        if check_password_hash(current_user.get_passhash(), current_pass):
+            dbase.update_password(int(current_user.get_id()), generate_password_hash(new_pass))
+        else:
+            flash("Текущий пароль неверный", category="error")
+            return redirect(url_for('settings'))
+    else:
+        flash("Данные ввода некорректны", category="error")
+        return redirect(url_for('settings'))
+
+    flash("Пароль был обновлён", category="success")
+    return redirect(url_for('profile'))
+
+
+@app.route('/upload', methods=['POST'])
+@login_required
+def upload():
+    if request.method == "POST":
+        file = request.files['file']
+        if file and current_user.verify_ext(filename=file.filename):
+            try:
+                img = file.read()
+                res = dbase.update_user_avatar(current_user.get_id(), img)
+                if not res:
+                    flash('Аватар не был загружен', category='error')
+                flash('Аватар обновлён', category='success')
+            except FileNotFoundError:
+                flash('Файл не найден', category='error')
+
+    return redirect(url_for('profile'))
 
 
 @app.route('/conference/<id_conf>')

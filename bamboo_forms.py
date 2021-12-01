@@ -60,8 +60,7 @@ class Createform(FlaskForm):
 
     time_create = TimeField("Выберите время", validators=[DataRequired()])
 
-    submit_create = SubmitField("Создать",
-                                render_kw={})
+    submit_create = SubmitField("Создать")
 
 
 class Addform(FlaskForm):
@@ -76,3 +75,19 @@ class Removeform(FlaskForm):
 
     submit_remove = SubmitField("Убрать из конференции",
                                 render_kw={"id": "remove_button"})
+
+
+class Changepasswordform(FlaskForm):
+    old_change = PasswordField("Текущий пароль", validators=[DataRequired(), Length(min=6, max=100)],
+                               render_kw={'placeholder': 'Текущий пароль',
+                                          'autocomplete': 'off'})
+
+    psw_change = PasswordField("Новый пароль", validators=[DataRequired(), Length(min=6, max=100)],
+                               render_kw={'placeholder': 'Новый пароль',
+                                          'autocomplete': 'off'})
+
+    chk_change = PasswordField("Повторите пароль", validators=[DataRequired(), EqualTo('psw_change')],
+                               render_kw={'placeholder': 'Повторите пароль',
+                                          'autocomplete': 'off'})
+
+    submit_change = SubmitField("Обновить пароль")

@@ -1,6 +1,5 @@
 from flask import url_for
 from flask_login import UserMixin
-from binascii import hexlify
 
 
 def userify(userdata):
@@ -8,6 +7,9 @@ def userify(userdata):
         id_user, email, pass_hash, lastname, firstname, avatar = userdata
     else:
         id_user, email, pass_hash, lastname, firstname, avatar = userdata.values()
+
+    if isinstance(avatar, memoryview):
+        avatar = avatar.tobytes()
 
     return {
         'id_user': id_user,
@@ -44,6 +46,10 @@ class Userlogin(UserMixin):
         self.__user = userify(self.__user)
         return self.__user['lastname'] if self.__user else 'Noname'
 
+    def get_passhash(self):
+        self.__user = userify(self.__user)
+        return self.__user['pass_hash']
+
     def get_avatar(self, app):
         img = None
         self.__user = userify(self.__user)
@@ -57,3 +63,10 @@ class Userlogin(UserMixin):
             img = self.__user['avatar']
 
         return img
+
+    def verify_ext(self, filename):
+        ext = filename.split('.', 1)[1]
+        if ext.lower() == 'png':
+            return True
+
+        return False

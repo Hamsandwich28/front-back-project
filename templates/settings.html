@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head -%}
+{{ super() }}
+<!-- CSS -->
+{% endblock head -%}
+
+{% block content -%}
+    <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a>
+    </button>
+    <div class="flash-area">
+        {% for cat, msg in get_flashed_messages(True) -%}
+            <div class="flash {{ cat }}">{{ msg }}</div>
+        {% endfor %}
+    </div>
+    <img src="{{ url_for('userava') }}" alt="USER_PIC" class="avatar-img">
+    <p id="name">{{ current_user.get_fname()}} {{ current_user.get_lname() }}</p>
+    <p id="email">{{ current_user.get_email()}}</p>
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <p><input type="file" name="file" value="Выберите файл"></p>
+        <p><input type="submit" value="Загрузить"></p>
+    </form>
+    
+    {% include "change_password_form.html" %}
+
+{% endblock content -%}

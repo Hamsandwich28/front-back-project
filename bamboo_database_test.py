@@ -79,6 +79,42 @@ class BDatabaseTest:
 
         return False
 
+    def update_user_avatar(self, id_user, avatar):
+        if not avatar:
+            return False
+
+        try:
+            binary = psycopg2.Binary(avatar)
+            sql = """
+            UPDATE users
+            SET avatar = %s
+            WHERE id_user = %s;"""
+            self.__cur.execute(sql, (binary, id_user))
+            self.__db.commit()
+
+            return True
+        except psycopg2.Error as e:
+            self.__db.rollback()
+            print('Ошибка обновления аватара', e)
+
+        return False
+
+    def update_password(self, id_user, pass_hash):
+        try:
+            sql = """
+            UPDATE users
+            SET pass_hash = %s
+            WHERE id_user = %s;"""
+            self.__cur.execute(sql, (pass_hash, id_user))
+            self.__db.commit()
+
+            return True
+        except psycopg2.Error as e:
+            self.__db.rollback()
+            print('Ошибка обновления пароля', e)
+
+        return False
+
     def add_conference(self, title, description, time_conf, id_creator):
         try:
             sql = '''
