@@ -31,7 +31,6 @@
         <span id="member_lname{{ loop.index }}">{{ member.lastname }}</span>
         <span id="member_fname{{ loop.index }}">{{ member.firstname }}</span>
         <span id="member_email{{ loop.index }}">{{ member.email }}</span>
-        <button class="remove-user" id="remove{{ loop.index }}">Удалить</button>
     </div>
     {% endfor -%}
 </div>
@@ -41,6 +40,35 @@
     <hr>
     <p>Введите почту пользователя для удаления его из конференции</p>
     {% include "removemember_form.html" %}
+    <p>Удалить конференцию</p>
+    <button id="delete_button" onclick="deleteconf()">УДАЛИТЬ</button>
 </div>
+<script>
+    var conference_id = "{{ conference.id_conf }}";
+    var back_url = "{{ url_for('profile') }}";
+</script>
+<script>
+    function deleteconf() { 
+        if (confirm("Вы уверены?")) {
+            let xhr = new XMLHttpRequest();
+            let data = JSON.stringify({"on_delete": conference_id})
+            xhr.open("DELETE", "/conference/delete", true);
+            xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+            xhr.onload = () => {
+                let answer = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    if (answer.deleted == true) {
+                        window.location = back_url;
+                    } else {
+                        alert("Конференция не была удалена, перезагрузите страницу");
+                    }
+                }
+            }
+            xhr.send(data);
+        } else {
+            return undefined;
+        }
+    }
+</script>
 
 {% endblock content -%}

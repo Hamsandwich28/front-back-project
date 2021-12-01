@@ -67,10 +67,12 @@ class Createform(FlaskForm):
 class Addform(FlaskForm):
     email_add = StringField("Введите почту: ", validators=[DataRequired()])
 
-    submit_add = SubmitField("Добавить в конференцию")
+    submit_add = SubmitField("Добавить в конференцию",
+                             render_kw={"id": "add_button"})
 
 
 class Removeform(FlaskForm):
     email_remove = StringField("Введите почту: ", validators=[DataRequired()])
 
-    submit_remove = SubmitField("Убрать из конференции")
+    submit_remove = SubmitField("Убрать из конференции",
+                                render_kw={"id": "remove_button"})

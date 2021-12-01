@@ -1,5 +1,6 @@
 # system import
 import psycopg2
+import time
 from datetime import datetime, timedelta
 from iteration_utilities import deepflatten
 
@@ -150,34 +151,42 @@ class BDatabaseTest:
 
         return False
 
-    def check_member_conference(self, id_user, id_conf):
+    def delete_conference(self, id_conf):
         try:
             sql = f"""
-            SELECT COUNT(*) FROM user_conf
-            WHERE id_user = {id_user}
-            AND id_conf = {id_conf};"""
+            DELETE FROM conferences
+            WHERE id_conf = {id_conf};"""
             self.__cur.execute(sql)
-            res = self.__cur.fetchone()
-            if int(*res) > 0:
-                return True
-
-        except psycopg2.Error as e:
-            print('Ошибка чтения записей конференций -> ', e)
-
-        return False
-
-    def add_member_conference(self, id_user, id_conf):
-        try:
-            sql = """
-            INSERT INTO user_conf
-            VALUES(%s, %s);"""
-            self.__cur.execute(sql, (id_user, id_conf))
             self.__db.commit()
 
             return True
         except psycopg2.Error as e:
             self.__db.rollback()
-            print('Ошибка добавления записей конференций -> ', e)
+            print("Ошибка удаления конференции -> ", e)
+
+        return False
+
+    def check_member_conference(self, id_user, id_conf):
+        try:
+            sql1 = f"""
+            SELECT COUNT(*) FROM user_conf
+            WHERE id_user = {id_user}
+            AND id_conf = {id_conf};"""
+            self.__cur.execute(sql1)
+            res1 = self.__cur.fetchone()
+
+            sql2 = f"""
+            SELECT COUNT(*) FROM user_invite
+            WHERE id_user = {id_user}
+            AND id_conf = {id_conf};"""
+            self.__cur.execute(sql2)
+            res2 = self.__cur.fetchone()
+
+            if int(*res1) > 0 or int(*res2) > 0:
+                return True
+
+        except psycopg2.Error as e:
+            print('Ошибка чтения записей конференций -> ', e)
 
         return False
 
@@ -211,20 +220,135 @@ class BDatabaseTest:
 
         return False
 
-    def remove_member_conference(self, id_user, id_conf):
+    def remove_invited_member(self, id_user, id_conf):
         try:
-            if id_user == self.get_creator_id_conference(id_conf):
-                return False
             sql = f"""
-            DELETE FROM user_conf
+            DELETE FROM user_invite
             WHERE id_user = {id_user}
-            AND id_conf = {id_conf};"""
+            AND id_conf = {id_conf}"""
             self.__cur.execute(sql)
             self.__db.commit()
 
             return True
         except psycopg2.Error as e:
             self.__db.rollback()
-            print('Ошибка добавления записей конференций -> ', e)
+            print('Ошибка удаления записи приглашений -> ', e)
+
+        return False
+
+    def remove_accepted_member(self, id_user, id_conf):
+        try:
+            sql = f"""
+            DELETE FROM user_conf
+            WHERE id_user = {id_user}
+            AND id_conf = {id_conf}"""
+            self.__cur.execute(sql)
+            self.__db.commit()
+
+            return True
+        except psycopg2.Error as e:
+            self.__db.rollback()
+            print('Ошибка удаления записи конференции -> ', e)
+
+        return False
+
+    def remove_member_conference(self, id_user, id_conf):
+        if id_user == self.get_creator_id_conference(id_conf):
+            return False
+
+        invited = self.remove_invited_member(id_user, id_conf)
+        accepted = self.remove_accepted_member(id_user, id_conf)
+        return invited or accepted
+
+    def get_invited_users(self, id_conf):
+        try:
+            sql = f"""
+            SELECT id_user FROM user_invite
+            WHERE user_invite.id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            res = self.__cur.fetchall()
+            res = list(deepflatten(res))
+
+            return res
+        except psycopg2.Error as e:
+            print('Ошибка чтения записей приглашения -> ', e)
+
+        return False
+
+    def get_accepted_users(self, id_conf):
+        try:
+            sql = f"""
+            SELECT id_user FROM user_conf
+            WHERE user_conf.id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            res = self.__cur.fetchall()
+            res = list(deepflatten(res))
+
+            return res
+        except psycopg2.Error as e:
+            print('Ошибка чтения записей приглашения -> ', e)
+
+        return False
+
+    def send_invitation(self, id_user, id_conf):
+        try:
+            if (
+                id_user == self.get_creator_id_conference(id_conf) or
+                id_user in self.get_accepted_users(id_conf)
+            ):
+                return False
+
+            sql = """
+            INSERT INTO user_invite
+            VALUES (%s, %s, %s);"""
+            self.__cur.execute(sql, (id_user, id_conf, int(time.time())))
+            self.__db.commit()
+
+            return True
+        except psycopg2.Error as e:
+            self.__db.rollback()
+            print('Ошибка добавления записей приглашения -> ', e)
+
+        return False
+
+    def get_invitations(self, id_user):
+        try:
+            sql = f"""
+            SELECT conferences.id_conf, conferences.title, conferences.time_conf, lastname, firstname
+            FROM user_invite JOIN conferences ON user_invite.id_conf = conferences.id_conf JOIN users
+            ON conferences.id_creator = users.id_user
+            WHERE user_invite.id_user = {id_user};"""
+            self.__cur.execute(sql)
+            res = self.__cur.fetchall()
+
+            return res
+        except psycopg2.Error as e:
+            print('Ошибка чтения записей приглашений -> ', e)
+
+        return False
+
+    def accept_invitation(self, id_user, id_conf):
+        try:
+            if (
+                id_user not in self.get_invited_users(id_conf) or
+                id_user in self.get_accepted_users(id_conf)
+            ):
+                return False
+
+            sql = f"""
+            INSERT INTO user_conf
+            VALUES (%s, %s);"""
+            self.__cur.execute(sql, (id_user, id_conf))
+
+            sql = f"""
+            DELETE FROM user_invite
+            WHERE id_user = {id_user} AND id_conf = {id_conf}"""
+            self.__cur.execute(sql)
+            self.__db.commit()
+
+            return True
+        except psycopg2.Error as e:
+            self.__db.rollback()
+            print('Ошибка записи приглашений -> ', e)
 
         return False

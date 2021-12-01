@@ -33,3 +33,11 @@ CREATE TABLE user_conf (
 	FOREIGN KEY(id_user) REFERENCES users(id_user) ON DELETE CASCADE,
 	FOREIGN KEY(id_conf) REFERENCES conferences(id_conf) ON DELETE CASCADE
 );
+
+CREATE TABLE user_invite (
+	id_user INTEGER NOT NULL,
+	id_conf INTEGER NOT NULL,
+	time_send INTEGER NOT NULL,
+	FOREIGN KEY(id_user) REFERENCES users(id_user) ON DELETE CASCADE,
+	FOREIGN KEY(id_conf) REFERENCES conferences(id_conf) ON DELETE CASCADE
+);

@@ -173,6 +173,7 @@ def create_conference():
             'id_creator': current_user.get_id()
         }
         dbase.add_conference(**conf_data)
+        return redirect(url_for("profile"))
 
     return render_template('create_conference.html',  title='Создание конференции',
                            create_form=create_form)
@@ -211,6 +212,17 @@ def chat_edit(id_conf):
     return redirect(url_for('profile'))
 
 
+@app.route('/conference/delete', methods=['DELETE'])
+@login_required
+def chat_delete():
+    on_delete = int(request.json["on_delete"])
+    if dbase.delete_conference(on_delete):
+        flash("Конференция была удалена", category="success")
+        return jsonify({"deleted": True}), 200
+    else:
+        return jsonify({"deleted": False}), 200
+
+
 @app.route('/conference/<id_conf>/add', methods=['POST'])
 @login_required
 def chat_add_member(id_conf):
@@ -223,8 +235,8 @@ def chat_add_member(id_conf):
             if dbase.check_member_conference(id_user, id_conf):
                 flash("Пользователь уже в конференции", category='success')
             else:
-                dbase.add_member_conference(id_user, id_conf)
-                flash("Пользователь добавлен", category='success')
+                dbase.send_invitation(id_user, id_conf)
+                flash("Пользователю отослано приглашение", category='success')
         else:
             flash("Пользователь не найден", category='error')
 
@@ -251,6 +263,36 @@ def chat_remove_member(id_conf):
             flash("Пользователь не найден", category='error')
 
     return redirect(url_for('chat_edit', id_conf=id_conf))
+
+
+@app.route('/invitations')
+@login_required
+def invitations():
+    invitations_list = dbase.get_invitations(int(current_user.get_id()))
+    invitation_rows = [{
+        "id": row[0],
+        "title": row[1],
+        "time": row[2],
+        "lastname": row[3],
+        "firstname": row[4]
+    } for row in invitations_list]
+    return render_template('invitations.html', title='Приглашения', invitations=invitation_rows)
+
+
+@app.route('/invitation_accept', methods=['POST'])
+@login_required
+def invitation_accept():
+    try:
+        str_id = str(request.json.get("accepted_id"))
+        id_accepted = int(str_id.split("_")[1])
+        if dbase.accept_invitation(int(current_user.get_id()), id_accepted):
+            return jsonify({"accepted": "True"}), 200
+
+        return jsonify({"accepted": "False"}), 200
+    except... as e:
+        print("Какая-то ошибка -> ", e)
+
+    return "Mistaken", 404
 
 
 @socketio.on('join')

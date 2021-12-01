@@ -1,0 +1,39 @@
+{% extends "base.html" -%}
+
+{% block head -%}
+{{ super() }}
+<!-- CSS -->
+{% endblock head -%}
+
+{% block content -%}
+    <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a></button>
+    <div class="info">
+        <p>{{ current_user.get_lname() }} {{ current_user.get_fname() }}</p>
+        {% if invitations %}
+        {% for invite in invitations -%}
+        <div class="invite">
+            <div class="invite-row">Конференция - {{ invite.title }}</div>
+            <div class="invite-row">Время активации - {{ invite.time }}</div>
+            <div class="invite-row">Инициатор - {{ invite.lastname }} {{ invite.firstname }}</div>
+            <button id="accept_{{ invite.id }}" onclick="accept(this.id)">Принять</button>
+        </div>
+        {% endfor -%}
+        {% else %}
+        <span class="empty-conference">Вас пока не приглашали в конференции</span>
+        {% endif %}
+    </div>
+    <script>
+        function accept(clicked_id) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/invitation_accept", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify({"accepted_id": `${clicked_id}`}));
+            xhr.onload = () => {
+                console.log(xhr.response);
+            }
+            const activated = document.querySelector(`#${clicked_id}`);
+            activated.innerHTML = "Принято";
+            activated.disabled = true;
+        }
+    </script>
+{% endblock content -%}
