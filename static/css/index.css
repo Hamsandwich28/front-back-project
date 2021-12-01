@@ -57,7 +57,6 @@ body {
 .icon-img {
     width: 100%;
     height: auto;
-    margin: 100 50;
 }
 
 .name h1 {
@@ -74,6 +73,7 @@ body {
 
 body::-webkit-scrollbar {
     width: 12px;
+    border-radius: 20px;
     background-color: #699b2c;
 }
 

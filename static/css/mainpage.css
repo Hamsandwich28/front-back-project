@@ -19,6 +19,7 @@ body {
     margin: 0;
     background: url(../images/greeting.jpg) center no-repeat;
     background-size: 100% 100%;
+    overflow: hidden;
 }
 
 .form {
@@ -52,7 +53,6 @@ body {
 .icon-img {
     width: 100%;
     height: auto;
-    margin: 100 50;
 }
 
 .menu h1 {
@@ -236,4 +236,80 @@ body {
 
 .create-conference i {
     margin-left: 30px;
+}
+
+#confs {
+    overflow-y: scroll;
+    max-height: 770px;
+    max-width: 1300px;
+    list-style-type: none;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+#confs::-webkit-scrollbar {
+    width: 12px;
+    background-color: #699b2c;
+    border-radius: 20px;
+}
+
+#confs::-webkit-scrollbar-track {
+    background: none;
+}
+
+#confs::-webkit-scrollbar-thumb {
+    background-color: #b8cf69;
+    border-radius: 20px;
+    border: 1px solid #48575e;
+}
+
+.conference-info{
+    color: #fff;
+    font-family: Roboto-Light;
+}
+
+#conferences {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+#confs li {
+    color: #fff;
+    font-family: Roboto-Light;
+    border-radius: 20px;
+    border: 0;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    padding-left: 30px;
+    padding-bottom: 40px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+.connect-to, .change-conf {
+    text-decoration: none;
+    color: #ffffff;
+    border: 3px solid;
+    border-radius: 20px;
+    margin-bottom: 5px;
+    margin-top:5px;
+    background-color:#699b2c;
+}
+
+.connect-to{
+    width: 45px;
+    padding: 3px;
+}
+
+.change-conf{
+    width: 75px;
+    padding: 3px;
+}
+
+.active{
+    background-color:#2d4a1a;
+}
+
+.inactive{
+     background-color:#699b2c8c;
 }
