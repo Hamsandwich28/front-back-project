@@ -3,9 +3,10 @@ import psycopg2
 import time
 from datetime import datetime, timedelta
 from iteration_utilities import deepflatten
+from math import floor
 
 
-def conference_view(datalist):
+def conference_view(datalist, conferences_filter):
     if type(datalist) is list:
         conf_data = [{
             'id_conf': row[0],
@@ -15,7 +16,7 @@ def conference_view(datalist):
             'creator_lastname': row[4],
             'creator_firstname': row[5],
             'id_creator': row[6],
-            'is_active': row[3] <= datetime.now() <= row[3] + timedelta(hours=1)
+            'is_active': conferences_filter(row[0])
         } for row in datalist]
 
         return conf_data
@@ -148,8 +149,8 @@ class BDatabaseTest:
             self.__cur.execute(sql)
             res = self.__cur.fetchone()
             if res:
-                res = conference_view([res]).pop()
                 return res
+
         except psycopg2.Error as e:
             print('Ошибка чтения записи конференции -> ', e)
 
@@ -176,10 +177,11 @@ class BDatabaseTest:
             SELECT conferences.id_conf, title, description, time_conf, lastname, firstname, id_creator
             FROM user_conf JOIN conferences ON user_conf.id_conf = conferences.id_conf
             JOIN users ON conferences.id_creator = users.id_user
-            WHERE user_conf.id_user = {id_user};"""
+            WHERE user_conf.id_user = {id_user}
+            ORDER BY time_conf;"""
             self.__cur.execute(sql)
             res = self.__cur.fetchall()
-            conf_data = conference_view(res)
+            conf_data = conference_view(res, self.active_conference_filter)
 
             return conf_data
         except psycopg2.Error as e:
@@ -386,5 +388,95 @@ class BDatabaseTest:
         except psycopg2.Error as e:
             self.__db.rollback()
             print('Ошибка записи приглашений -> ', e)
+
+        return False
+
+    def get_visited_users(self, id_conf):
+        try:
+            sql = f"""
+            SELECT id_user, users.lastname, users.firstname, users.email
+            FROM user_conf JOIN users ON user_conf.id_user = users.id_user
+            WHERE last_visited = true AND id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            res = self.__cur.fetchall()
+
+            sql = f"""
+            UPDATE user_conf SET last_visited = false
+            WHERE id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            self.__db.commit()
+
+            return res
+        except psycopg2.Error as e:
+            self.__db.rollback()
+            print("Ошибка изменения данных времени конференции -> ", e)
+
+        return False
+
+    def update_time_conference(self, id_conf, start, period):
+        try:
+            sql = f"""
+            UPDATE conferences
+            SET time_conf = '{start + period}'
+            WHERE id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            self.__db.commit()
+
+            return True
+        except psycopg2.Error as e:
+            self.__db.rollback()
+            print("Ошибка изменения данных времени конференции -> ", e)
+
+        return False
+
+    def active_conference_filter(self, id_conf):
+        durable = 2  # два часа
+        try:
+            sql = f"""
+            SELECT time_conf, period_conf FROM conferences
+            WHERE id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            res = self.__cur.fetchone()
+            if not res:
+                return False
+
+            start, period = res
+            if start <= datetime.now() <= start + timedelta(hours=durable):
+                return True
+            elif datetime.now() < start:
+                return False
+            elif period:
+                if self.update_time_conference(id_conf, start, period):
+                    return self.active_conference_filter(id_conf)
+                else:
+                    raise psycopg2.Error("Ошибка изменения данных времени.")
+            else:
+                self.delete_conference(id_conf)
+
+        except psycopg2.Error as e:
+            print("Ошибка анализа данных конференции -> ", e)
+
+        return False
+
+    def skip_period(self, id_conf):
+        # ДЛЯ ПРОПУСКА ДАЖЕ ИДУЩЕЙ КОНФЕРЕНЦИИ
+        try:
+            sql = f"""
+            SELECT time_conf, period_conf FROM conferences
+            WHERE id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            res = self.__cur.fetchone()
+            if not res:
+                return False
+
+            start, period = res
+            if not period:
+                self.delete_conference(id_conf)
+            else:
+                return self.update_time_conference(id_conf, start, period)
+
+            return True
+        except psycopg2.Error as e:
+            print("Ошибка выполнения команды -> ", e)
 
         return False

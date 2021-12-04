@@ -154,7 +154,7 @@ body {
 }
 
 .fa-ul .active {
-    background-color: #699b2c;
+    background-color: #699b2c8c; /**/
     padding: 5px 5px;
 }
 
@@ -311,5 +311,5 @@ body {
 }
 
 .inactive{
-     background-color:#699b2c8c;
+     background-color: #699b2c;
 }
