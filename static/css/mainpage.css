@@ -138,6 +138,7 @@ body {
     margin-top: 70px;
 }
 
+
 /* .content>div:nth-child(-n+4) {
     display: none;
 } */
@@ -239,7 +240,7 @@ body {
 }
 
 #confs {
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 770px;
     max-width: 1300px;
     list-style-type: none;
@@ -263,7 +264,7 @@ body {
     border: 1px solid #48575e;
 }
 
-.conference-info{
+.conference-info {
     color: #fff;
     font-family: Roboto-Light;
 }
@@ -286,30 +287,43 @@ body {
     margin-right: 10px;
 }
 
-.connect-to, .change-conf {
+.connect-to,
+.change-conf {
     text-decoration: none;
     color: #ffffff;
     border: 3px solid;
     border-radius: 20px;
     margin-bottom: 5px;
-    margin-top:5px;
-    background-color:#699b2c;
+    margin-top: 5px;
+    background-color: #699b2c;
 }
 
-.connect-to{
+.connect-to {
     width: 45px;
     padding: 3px;
 }
 
-.change-conf{
+.change-conf {
     width: 75px;
     padding: 3px;
 }
 
-.active{
-    background-color:#2d4a1a;
+.active {
+    background-color: #2d4a1a;
 }
 
-.inactive{
-     background-color:#699b2c8c;
+.inactive {
+    background-color: #699b2c8c;
+}
+
+#logout {
+    text-decoration: none;
+    color: #ffffff;
+    border: 3px solid;
+    border-radius: 20px;
+    background-color: #699b2c;
+    width: 50px;
+    text-align: center;
+    padding: 3px;
+    margin: auto;
 }

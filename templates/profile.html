@@ -23,7 +23,7 @@
                 </div>
                 <p id="name">{{ current_user.get_fname()}} {{ current_user.get_lname() }}</p>
                 <p id="email">{{ current_user.get_email()}}</p>
-                <a href="{{ url_for('logout') }}">Выйти</a>
+                <a id="logout" href="{{ url_for('logout') }}">Выйти</a>
                 <ul class="fa-ul">
                     <li class="tab">
                         <a href="{{ url_for('settings') }}">

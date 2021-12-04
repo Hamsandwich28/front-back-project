@@ -2,16 +2,18 @@
 
 {% block head -%}
 {{ super() }}
-    <!-- СТИЛИ -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/create_conference.css') }}">
 {% endblock head -%}
 
 {% block content -%}
-    <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a>
-    </button>
     {% for cat, msg in get_flashed_messages(True) -%}
-    <div class="flash {{ cat }}">{{ msg }}</div>
+        <div class="flash {{ cat }}">{{ msg }}</div>
     {% endfor -%}
-
-    {% include "create_form.html" %}
+    <div id="main-section">
+        <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a></button>
+        
+        {% include "create_form.html" %}
+    
+    </div>
 
 {% endblock content -%}

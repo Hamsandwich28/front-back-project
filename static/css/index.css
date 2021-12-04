@@ -266,6 +266,7 @@ textarea {
     border-radius: 7px;
     width: 630px;
     height: 60px;
+    cursor: pointer;
 }
 
 .button:hover,

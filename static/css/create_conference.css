@@ -1,0 +1,127 @@
+@font-face {
+    font-family: Roboto-Bold;
+    src: local(Roboto-Bold), url(../font/Roboto-Bold.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Light;
+    src: local(Roboto-Light), url(../font/Roboto-Light.ttf);
+}
+
+body {
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+    background: url(../images/greeting.jpg) center no-repeat;
+    background-size: cover;
+    overflow: hidden;
+    font-family: Roboto-Light;
+    color: #fff;
+    font-size: 20px;
+}
+
+#main-section {
+    background: rgba(184, 207, 105, 0.3);
+    width: 470px;
+    height: 460px;
+    margin: 50px auto;
+    border-radius: 20px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-left: 20px;
+}
+
+.input-value {
+    margin-bottom: 5px;
+}
+
+h2 {
+    font-family: Roboto-Bold;
+    margin: 10px 70px;
+}
+
+#back {
+    border: 0;
+    outline: none;
+    font-size: 20px;
+    background: #699b2c;
+    color: #ffffff;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-appearance: none;
+    border-radius: 20px;
+    width: 80px;
+    height: 50px;
+    cursor: pointer;
+}
+
+#back:hover,
+#back:focus {
+    background: #2d4a1a;
+}
+
+#back a:link,
+#back a:visited,
+#back a:active {
+    color: #ffffff;
+    font-family: Roboto-Light;
+    text-decoration: none;
+}
+
+#create {
+    border: 0;
+    outline: none;
+    font-size: 20px;
+    background: #699b2c;
+    color: #ffffff;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-appearance: none;
+    border-radius: 20px;
+    width: 100px;
+    height: 40px;
+    margin: 10px 110px;
+    cursor: pointer;
+}
+
+#create:hover,
+#create:focus {
+    background: #2d4a1a;
+}
+
+#input-area {
+    overflow: hidden;
+    font-size: 16px;
+    padding: 5px 10px;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    border-radius: 7px;
+    background-color: #699b2c;
+    margin-left: 10px;
+    resize: none;
+}
+
+input:focus,
+textarea:focus {
+    outline: 0;
+    border-color: #ffffff;
+}
+
+textarea {
+    border: 2px solid #ffffff;
+    resize: vertical;
+}
+
+#input-area::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.671);
+}
+
+#input-area::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.671);
+}

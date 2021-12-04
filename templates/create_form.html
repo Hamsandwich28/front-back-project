@@ -1,18 +1,21 @@
 <form action="{{ url_for('create_conference') }}" method="post">
     {{ create_form.hidden_tag() }}
-    <div class="input-value">
-        {{ create_form.title_create.label() }}{{ create_form.title_create() }}
-    </div>
-    <div class="input-value">
-        {{ create_form.description_create.label() }}{{ create_form.description_create() }}
-    </div>
-    <div class="input-value">
-        {{ create_form.date_create.label() }}{{ create_form.date_create() }}
-    </div>
-    <div class="input-value">
-        {{ create_form.time_create.label() }}{{ create_form.time_create() }}
-    </div>
-    <div class="input-value">
-        {{ create_form.submit_create.label() }}{{ create_form.submit_create() }}
+    <h2>КОНФЕРЕНЦИЯ</h2>
+    <div class="form-group">
+        <div class="input-value">
+            {{ create_form.title_create.label() }}{{ create_form.title_create() }}
+        </div>
+        <div class="input-value">
+            {{ create_form.description_create.label() }}{{ create_form.description_create() }}
+        </div>
+        <div class="input-value">
+            {{ create_form.date_create.label() }}{{ create_form.date_create() }}
+        </div>
+        <div class="input-value">
+            {{ create_form.time_create.label() }}{{ create_form.time_create() }}
+        </div>
+        <div class="input-value">
+            {{ create_form.submit_create() }}
+        </div>
     </div>
 </form>

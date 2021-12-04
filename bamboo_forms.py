@@ -49,18 +49,22 @@ class Registerform(FlaskForm):
 class Createform(FlaskForm):
     title_create = StringField("Заголовок", validators=[DataRequired(), Length(min=1, max=59)],
                                render_kw={'placeholder': 'Заголовок',
-                                          'autocomplete': 'off'})
+                                          'autocomplete': 'off',
+                                          'id': 'input-area'})
 
     description_create = TextAreaField("Описание",
                                        render_kw={'placeholder': 'Описание',
                                                   'autocomplete': 'off',
-                                                  'rows': '10', 'cols': '33'})
+                                                  'rows': '10', 'cols': '33', 
+                                                  'id': 'input-area'})
 
-    date_create = DateField("Выберите день", validators=[DataRequired()])
+    date_create = DateField("Выберите день", validators=[DataRequired()],
+                                    render_kw={'id': 'input-area'})
 
-    time_create = TimeField("Выберите время", validators=[DataRequired()])
+    time_create = TimeField("Выберите время", validators=[DataRequired()],
+                                    render_kw={'id': 'input-area'})
 
-    submit_create = SubmitField("Создать")
+    submit_create = SubmitField("Создать", render_kw={'id': 'create'})
 
 
 class Addform(FlaskForm):

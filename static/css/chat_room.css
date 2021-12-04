@@ -92,6 +92,7 @@ input::-moz-placeholder {
     border-radius: 7px;
     width: 60px;
     height: 43px;
+    cursor: pointer;
 }
 
 #send_msg:hover,
@@ -114,6 +115,7 @@ input::-moz-placeholder {
     border-radius: 20px;
     width: 80px;
     height: 50px;
+    cursor: pointer;
 }
 
 #back:hover,
@@ -142,7 +144,7 @@ h2 {
 
 #messages {
     position: fixed;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 400px;
     max-width: 360px;
     max-height: 720px;
