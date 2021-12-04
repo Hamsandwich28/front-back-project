@@ -228,6 +228,7 @@ def upload():
 def chat_room(id_conf):
     conference = dbase.get_conference(id_conf)
     if conference and dbase.is_conf_member(id_conf, current_user.get_id()):
+        conference = {'id_conf': id_conf, 'title': conference[1]}
         fullname = f"{current_user.get_lname()} {current_user.get_fname()}"
         return render_template('chat_room.html', title=f"{conference['title']}",
                                username=fullname, conference=conference)
@@ -243,6 +244,8 @@ def chat_edit(id_conf):
     removeform = Removeform()
     conference = dbase.get_conference(id_conf)
     if conference and dbase.is_conf_member(id_conf, current_user.get_id()):
+        conference = {'id_conf': id_conf, 'title': conference[1],
+                      'description': conference[2], 'time_conf': conference[3]}
         member_list = dbase.get_members_conference(id_conf)
         members = [{
             'lastname': row[0],

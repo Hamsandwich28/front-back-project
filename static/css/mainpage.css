@@ -140,7 +140,7 @@ body {
 
 
 /* .content>div:nth-child(-n+4) {
-    display: none;
+display: none;
 } */
 
 .tab:hover {
@@ -155,7 +155,7 @@ body {
 }
 
 .fa-ul .active {
-    background-color: #699b2c;
+    background-color: #699b2c8c;
     padding: 5px 5px;
 }
 
