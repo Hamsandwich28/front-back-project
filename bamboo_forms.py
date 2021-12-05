@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, PasswordField, TextAreaField
-from wtforms.fields.html5 import TimeField, DateField
+from wtforms.fields import TimeField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 
@@ -68,30 +68,36 @@ class Createform(FlaskForm):
 
 
 class Addform(FlaskForm):
-    email_add = StringField("Введите почту: ", validators=[DataRequired()])
+    email_add = StringField("Введите почту: ", validators=[DataRequired()],
+                                    render_kw={'id': 'input-area'})
 
     submit_add = SubmitField("Добавить в конференцию",
-                             render_kw={"id": "add_button"})
+                             render_kw={"id": "btn"})
 
 
 class Removeform(FlaskForm):
-    email_remove = StringField("Введите почту: ", validators=[DataRequired()])
+    email_remove = StringField("Введите почту: ", validators=[DataRequired()],
+                                    render_kw={'id': 'input-area'})
 
     submit_remove = SubmitField("Убрать из конференции",
-                                render_kw={"id": "remove_button"})
+                                render_kw={"id": "btn"})
 
 
 class Changepasswordform(FlaskForm):
     old_change = PasswordField("Текущий пароль", validators=[DataRequired(), Length(min=6, max=100)],
                                render_kw={'placeholder': 'Текущий пароль',
-                                          'autocomplete': 'off'})
+                                          'autocomplete': 'off',
+                                          'id': 'input-area'})
 
     psw_change = PasswordField("Новый пароль", validators=[DataRequired(), Length(min=6, max=100)],
                                render_kw={'placeholder': 'Новый пароль',
-                                          'autocomplete': 'off'})
+                                          'autocomplete': 'off',
+                                          'id': 'input-area'})
 
     chk_change = PasswordField("Повторите пароль", validators=[DataRequired(), EqualTo('psw_change')],
                                render_kw={'placeholder': 'Повторите пароль',
-                                          'autocomplete': 'off'})
+                                          'autocomplete': 'off',
+                                          'id': 'input-area'})
 
-    submit_change = SubmitField("Обновить пароль")
+    submit_change = SubmitField("Обновить пароль",
+                                render_kw={"id": "btn"})

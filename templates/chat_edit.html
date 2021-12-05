@@ -2,47 +2,63 @@
 
 {% block head -%}
 {{ super() }}
-<!-- CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/chat_edit.css') }}">
 {% endblock head -%}
 
 {% block content -%}
 {% for cat, msg in get_flashed_messages(True) -%}
     <div class="flash {{ cat }}">{{ msg }}</div>
 {% endfor %}
-<a href="{{ url_for('profile') }}">Назад</a>
-<div class="conference-data">
-    <div class="data-row">
-        <span class="name-row">Название конференции</span>
-        <span class="info-row">{{ conference.title }}</span>
+
+<div id="main-section">
+    <div id="hback">
+        <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a></button>
+        <h2>ИЗМЕНЕНИЕ СОСТАВА</h2>
     </div>
-    <div class="data-row">
-        <span class="name-row">Описание конференции</span>
-        <span class="info-row">{{ conference.description }}</span>
+    
+    <div class="edit-section">
+        <div class="conference-data">
+            <div class="data-row">
+                <span class="name-row">Название конференции</span>
+                <span class="info-row">{{ conference.title }}</span>
+            </div>
+            <div class="data-row">
+                <span class="name-row">Описание конференции</span>
+                <span class="info-row">{{ conference.description }}</span>
+            </div>
+            <div class="data-row">
+                <span class="name-row">Время старта</span>
+                <span class="info-row">{{ conference.time_conf }}</span>
+            </div>
+            <div class="line"></div>
+            <p id="members">Участники<p>
+            <div class="conference-members">
+                {% for member in members -%}
+                <div class="member-row" id="user{{ loop.index }}">
+                    <span id="member_lname{{ loop.index }}">{{ member.lastname }}</span>
+                    <span id="member_fname{{ loop.index }}">{{ member.firstname }}</span>
+                    <span id="member_email{{ loop.index }}">{{ member.email }}</span>
+                </div>
+                
+                {% endfor -%}
+            </div>
+        </div>
+        <hr>  
+        <div class="change-form">
+            <p>Введите почту пользователя для добавления его в конференцию</p>
+            {% include "addmember_form.html" %}
+            <div class="line"></div>
+            <p>Введите почту пользователя для удаления его из конференции</p>
+            {% include "removemember_form.html" %}
+            <div class="line"></div>
+            <p>Удалить конференцию</p>
+            <button id="delete_button" onclick="deleteconf()">УДАЛИТЬ</button>
+        </div>
     </div>
-    <div class="data-row">
-        <span class="name-row">Время старта</span>
-        <span class="info-row">{{ conference.time_conf }}</span>
-    </div>
+
 </div>
-<br>
-<div class="conference-members">
-    {% for member in members -%}
-    <div class="member-row" id="user{{ loop.index }}">
-        <span id="member_lname{{ loop.index }}">{{ member.lastname }}</span>
-        <span id="member_fname{{ loop.index }}">{{ member.firstname }}</span>
-        <span id="member_email{{ loop.index }}">{{ member.email }}</span>
-    </div>
-    {% endfor -%}
-</div>
-<div class="change-form">
-    <p>Введите почту пользователя для добавления его в конференцию</p>
-    {% include "addmember_form.html" %}
-    <hr>
-    <p>Введите почту пользователя для удаления его из конференции</p>
-    {% include "removemember_form.html" %}
-    <p>Удалить конференцию</p>
-    <button id="delete_button" onclick="deleteconf()">УДАЛИТЬ</button>
-</div>
+
+
 <script>
     var conference_id = "{{ conference.id_conf }}";
     var back_url = "{{ url_for('profile') }}";

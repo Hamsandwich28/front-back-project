@@ -31,7 +31,7 @@ body {
     background-size: cover;
     min-height: 100vh;
     overflow: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .greeting {

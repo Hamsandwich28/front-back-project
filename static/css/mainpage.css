@@ -20,6 +20,7 @@ body {
     background: url(../images/greeting.jpg) center no-repeat;
     background-size: 100% 100%;
     overflow: hidden;
+    overflow-y: auto;
 }
 
 .form {
@@ -168,59 +169,10 @@ display: none;
     color: #fff;
 }
 
-#conferences div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#conferences button {
-    color: #fff;
-    background-color: #2d4a1a;
-    font-family: Roboto-Light;
-    border-radius: 20px;
-    border: 0;
-    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-    text-align: left;
-    margin: 20px 50px;
-}
-
-.conference1,
-.conference2 {
-    color: #fff;
-    background-color: #2d4a1a;
-    font-family: Roboto-Light;
-    height: 250px;
-}
-
-.window {
-    float: left;
-    width: 100%;
-    background-repeat: no-repeat;
-    width: 320px;
-    height: 180px;
-    overflow: hidden;
-    margin: 0 auto;
-    margin-left: 30px;
-}
-
 .info {
     display: flex;
     flex-direction: column;
     margin-top: 40px;
-}
-
-.info h3 {
-    font-size: 25px;
-}
-
-.info p {
-    font-size: 20px;
-}
-
-.info p,
-.info h3 {
-    margin: 3px 70px;
 }
 
 .create-conference {
@@ -326,4 +278,27 @@ display: none;
     text-align: center;
     padding: 3px;
     margin: auto;
+}
+
+.flash {
+    width: 600px;
+    height: 50px;
+    margin: 20px auto;
+    padding-top: 20px;
+    border: 2px solid gray;
+    border-radius: 15px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.success {
+    background-color: lightgreen;
+    font-family: Roboto-Light;
+    color: white;
+}
+
+.error {
+    background-color: pink;
+    font-family: Roboto-Light;
+    color: white;
 }

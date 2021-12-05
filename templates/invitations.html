@@ -2,25 +2,33 @@
 
 {% block head -%}
 {{ super() }}
-<!-- CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/invitations.css') }}">
 {% endblock head -%}
 
 {% block content -%}
-    <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a></button>
+<div id="main-section">
+    <div id="hback">
+        <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a></button>
+        <h2>ПРИГЛАШЕНИЯ</h2>
+    </div>
     <div class="info">
         <p>{{ current_user.get_lname() }} {{ current_user.get_fname() }}</p>
         {% if invitations %}
-        {% for invite in invitations -%}
-        <div class="invite">
-            <div class="invite-row">Конференция - {{ invite.title }}</div>
-            <div class="invite-row">Время активации - {{ invite.time }}</div>
-            <div class="invite-row">Инициатор - {{ invite.lastname }} {{ invite.firstname }}</div>
-            <button id="accept_{{ invite.id }}" onclick="accept(this.id)">Принять</button>
+        <div class="invitations">
+            {% for invite in invitations -%}
+            <div class="invite">
+                <div class="invite-row">Конференция - {{ invite.title }}</div>
+                <div class="invite-row">Время активации - {{ invite.time }}</div>
+                <div class="invite-row">Инициатор - {{ invite.lastname }} {{ invite.firstname }}</div>
+                <button class="btn" id="accept_{{ invite.id }}" onclick="accept(this.id)">Принять</button>
+            </div>
+        
+            {% endfor -%}
         </div>
-        {% endfor -%}
         {% else %}
-        <span class="empty-conference">Вас пока не приглашали в конференции</span>
+        <p class="empty-conference">Вас пока не приглашали в конференции</p>
         {% endif %}
     </div>
+</div>
     <script src="{{ url_for('static', filename='js/invitations.js') }}"></script>
 {% endblock content -%}

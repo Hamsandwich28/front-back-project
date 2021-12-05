@@ -22,28 +22,54 @@ body {
 
 #main-section {
     background: rgba(184, 207, 105, 0.3);
-    width: 470px;
-    height: 470px;
+    width: 570px;
+    height: 320px;
     margin: 50px auto;
     border-radius: 20px;
     display: flex;
-    align-items: flex-start;
+    text-align: start;
 }
 
-.form-group {
+.avatar_change {
     display: flex;
+    text-align: center;
     flex-direction: column;
-    align-items: start;
-    margin-left: 20px;
+    justify-content: center;
 }
 
-.input-value {
-    margin-bottom: 5px;
+.av {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.avatar-img {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+p {
+    margin: 5px 20px;
+}
+
+#hback {
+    display: flex;
+    text-align: start;
+}
+
+hr {
+    margin: 10px 0px;
+    width: 0px;
+    border-width: 0.1px;
 }
 
 h2 {
     font-family: Roboto-Bold;
-    margin: 10px 70px;
+    margin: 10px 31px;
+    font-size: 22px;
 }
 
 #back {
@@ -74,7 +100,7 @@ h2 {
     text-decoration: none;
 }
 
-#create {
+#load {
     border: 0;
     outline: none;
     font-size: 20px;
@@ -84,14 +110,37 @@ h2 {
     transition: all 0.5s ease;
     -webkit-appearance: none;
     border-radius: 20px;
-    width: 100px;
+    width: 130px;
     height: 40px;
-    margin: 10px 110px;
     cursor: pointer;
+    margin: 10px auto;
+    text-align: center;
 }
 
-#create:hover,
-#create:focus {
+#load:hover,
+#load:focus {
+    background: #2d4a1a;
+}
+
+#btn {
+    border: 0;
+    outline: none;
+    font-size: 20px;
+    background: #699b2c;
+    color: #ffffff;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-appearance: none;
+    border-radius: 20px;
+    width: 200px;
+    height: 40px;
+    cursor: pointer;
+    margin: 10px 15px;
+    text-align: center;
+}
+
+#btn:hover,
+#btn:focus {
     background: #2d4a1a;
 }
 
@@ -104,6 +153,7 @@ h2 {
     border-radius: 7px;
     background-color: #699b2c;
     margin-left: 10px;
+    margin-bottom: 7px;
     resize: none;
 }
 
@@ -127,12 +177,12 @@ textarea {
 }
 
 .flash {
-    width: 700px;
-    height: 80px;
+    width: 600px;
+    height: 50px;
     margin: 20px auto;
     padding-top: 20px;
     border: 2px solid gray;
-    border-radius: 10px;
+    border-radius: 15px;
     font-size: 24px;
     text-align: center;
 }
