@@ -116,13 +116,13 @@ class BDatabaseTest:
 
         return False
 
-    def add_conference(self, title, description, time_conf, id_creator):
+    def add_conference(self, title, description, time_conf, period_conf, id_creator):
         try:
             sql = '''
-            INSERT INTO conferences (title, description, time_conf, id_creator)
-            VALUES(%s, %s, %s, %s) RETURNING id_conf;
+            INSERT INTO conferences(title, description, time_conf, period_conf, id_creator)
+            VALUES(%s, %s, %s, %s, %s) RETURNING id_conf;
             '''
-            self.__cur.execute(sql, (title, description, time_conf, id_creator))
+            self.__cur.execute(sql, (title, description, time_conf, period_conf, id_creator))
             res = list(self.__cur.fetchone())
             id_created = res.pop()
 

@@ -2,6 +2,7 @@
 import os
 import psycopg2
 import configparser
+from datetime import date
 from time import localtime, strftime
 from flask import Flask, g, render_template, url_for, request, \
     redirect, flash, make_response, jsonify
@@ -164,13 +165,20 @@ def create_conference():
     create_form = Createform()
 
     if create_form.validate_on_submit():
+        if create_form.date_create.data < date.today():
+            flash('Выберите будущий день', category='error')
+            return redirect(url_for("create_conference"))
+
+        activity_period = create_form.period_create.data
         conf_data = {
             'title': create_form.title_create.data,
             'description': create_form.description_create.data,
             'time_conf': f'{create_form.date_create.data} {create_form.time_create.data}',
+            'period_conf':  activity_period if activity_period else None,
             'id_creator': current_user.get_id()
         }
         dbase.add_conference(**conf_data)
+        flash('Конференция создана', category='success')
         return redirect(url_for("profile"))
 
     return render_template('create_conference.html',  title='Создание конференции',

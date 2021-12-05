@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField, PasswordField, TextAreaField
-from wtforms.fields import TimeField, DateField
+from wtforms import StringField, SubmitField, BooleanField, PasswordField, TextAreaField, SelectField
+from wtforms.fields.html5 import TimeField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 
@@ -49,55 +49,50 @@ class Registerform(FlaskForm):
 class Createform(FlaskForm):
     title_create = StringField("Заголовок", validators=[DataRequired(), Length(min=1, max=59)],
                                render_kw={'placeholder': 'Заголовок',
-                                          'autocomplete': 'off',
-                                          'id': 'input-area'})
+                                          'autocomplete': 'off'})
 
     description_create = TextAreaField("Описание",
                                        render_kw={'placeholder': 'Описание',
                                                   'autocomplete': 'off',
-                                                  'rows': '10', 'cols': '33', 
-                                                  'id': 'input-area'})
+                                                  'rows': '10', 'cols': '33'})
 
-    date_create = DateField("Выберите день", validators=[DataRequired()],
-                                    render_kw={'id': 'input-area'})
+    period_content = [('', 'Без повторов'), ('3 days', '3 дня'), ('7 days', '7 дней'),
+                      ('14 days', '14 дней'), ('1 month', '1 месяц')]
 
-    time_create = TimeField("Выберите время", validators=[DataRequired()],
-                                    render_kw={'id': 'input-area'})
+    period_create = SelectField("Периодичность конференции", choices=period_content)
 
-    submit_create = SubmitField("Создать", render_kw={'id': 'create'})
+    date_create = DateField("Выберите день", validators=[DataRequired()])
+
+    time_create = TimeField("Выберите время", validators=[DataRequired()])
+
+    submit_create = SubmitField("Создать")
 
 
 class Addform(FlaskForm):
-    email_add = StringField("Введите почту: ", validators=[DataRequired()],
-                                    render_kw={'id': 'input-area'})
+    email_add = StringField("Введите почту: ", validators=[DataRequired()])
 
     submit_add = SubmitField("Добавить в конференцию",
-                             render_kw={"id": "btn"})
+                             render_kw={"id": "add_button"})
 
 
 class Removeform(FlaskForm):
-    email_remove = StringField("Введите почту: ", validators=[DataRequired()],
-                                    render_kw={'id': 'input-area'})
+    email_remove = StringField("Введите почту: ", validators=[DataRequired()])
 
     submit_remove = SubmitField("Убрать из конференции",
-                                render_kw={"id": "btn"})
+                                render_kw={"id": "remove_button"})
 
 
 class Changepasswordform(FlaskForm):
     old_change = PasswordField("Текущий пароль", validators=[DataRequired(), Length(min=6, max=100)],
                                render_kw={'placeholder': 'Текущий пароль',
-                                          'autocomplete': 'off',
-                                          'id': 'input-area'})
+                                          'autocomplete': 'off'})
 
     psw_change = PasswordField("Новый пароль", validators=[DataRequired(), Length(min=6, max=100)],
                                render_kw={'placeholder': 'Новый пароль',
-                                          'autocomplete': 'off',
-                                          'id': 'input-area'})
+                                          'autocomplete': 'off'})
 
     chk_change = PasswordField("Повторите пароль", validators=[DataRequired(), EqualTo('psw_change')],
                                render_kw={'placeholder': 'Повторите пароль',
-                                          'autocomplete': 'off',
-                                          'id': 'input-area'})
+                                          'autocomplete': 'off'})
 
-    submit_change = SubmitField("Обновить пароль",
-                                render_kw={"id": "btn"})
+    submit_change = SubmitField("Обновить пароль")
