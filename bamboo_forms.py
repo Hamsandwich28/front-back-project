@@ -49,50 +49,56 @@ class Registerform(FlaskForm):
 class Createform(FlaskForm):
     title_create = StringField("Заголовок", validators=[DataRequired(), Length(min=1, max=59)],
                                render_kw={'placeholder': 'Заголовок',
-                                          'autocomplete': 'off'})
+                                          'autocomplete': 'off',
+                                       'id': 'input-area'})
 
     description_create = TextAreaField("Описание",
                                        render_kw={'placeholder': 'Описание',
                                                   'autocomplete': 'off',
-                                                  'rows': '10', 'cols': '33'})
+                                                  'rows': '10', 'cols': '33',
+                                                  'id': 'input-area'})
 
     period_content = [('', 'Без повторов'), ('3 days', '3 дня'), ('7 days', '7 дней'),
                       ('14 days', '14 дней'), ('1 month', '1 месяц')]
 
-    period_create = SelectField("Периодичность конференции", choices=period_content)
+    period_create = SelectField("Периодичность конференции", choices=period_content, 
+                                render_kw={'id': 'input-area'})
 
-    date_create = DateField("Выберите день", validators=[DataRequired()])
+    date_create = DateField("Выберите день", validators=[DataRequired()], render_kw={'id': 'input-area'})
 
-    time_create = TimeField("Выберите время", validators=[DataRequired()])
+    time_create = TimeField("Выберите время", validators=[DataRequired()], render_kw={'id': 'input-area'})
 
-    submit_create = SubmitField("Создать")
+    submit_create = SubmitField("Создать", render_kw={'id': 'create'})
 
 
 class Addform(FlaskForm):
-    email_add = StringField("Введите почту: ", validators=[DataRequired()])
+    email_add = StringField("Введите почту: ", validators=[DataRequired()], render_kw={'id': 'input-area'})
 
     submit_add = SubmitField("Добавить в конференцию",
-                             render_kw={"id": "add_button"})
+                             render_kw={"id": "btn"})
 
 
 class Removeform(FlaskForm):
-    email_remove = StringField("Введите почту: ", validators=[DataRequired()])
+    email_remove = StringField("Введите почту: ", validators=[DataRequired()], render_kw={'id': 'input-area'})
 
     submit_remove = SubmitField("Убрать из конференции",
-                                render_kw={"id": "remove_button"})
+                                render_kw={"id": "btn"})
 
 
 class Changepasswordform(FlaskForm):
     old_change = PasswordField("Текущий пароль", validators=[DataRequired(), Length(min=6, max=100)],
                                render_kw={'placeholder': 'Текущий пароль',
-                                          'autocomplete': 'off'})
+                                          'autocomplete': 'off',
+                                          'id': 'input-area'})
 
     psw_change = PasswordField("Новый пароль", validators=[DataRequired(), Length(min=6, max=100)],
                                render_kw={'placeholder': 'Новый пароль',
-                                          'autocomplete': 'off'})
+                                          'autocomplete': 'off',
+                                          'id': 'input-area'})
 
     chk_change = PasswordField("Повторите пароль", validators=[DataRequired(), EqualTo('psw_change')],
                                render_kw={'placeholder': 'Повторите пароль',
-                                          'autocomplete': 'off'})
+                                          'autocomplete': 'off',
+                                          'id': 'input-area'})
 
-    submit_change = SubmitField("Обновить пароль")
+    submit_change = SubmitField("Обновить пароль", render_kw={'id': 'btn'})

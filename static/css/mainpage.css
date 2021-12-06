@@ -175,6 +175,25 @@ display: none;
     margin-top: 40px;
 }
 
+#conferences div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info h3 {
+    font-size: 25px;
+}
+
+.info p {
+    font-size: 20px;
+}
+
+.info p,
+.info h3 {
+    margin: 3px 70px;
+}
+
 .create-conference {
     color: #fff;
     background-color: #2d4a1a;
