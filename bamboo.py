@@ -232,7 +232,6 @@ def upload():
 
 
 @app.route('/conference/<id_conf>')
-@cross_origin(**api_cors_config)
 @login_required
 def chat_room(id_conf):
     conference = dbase.get_conference(id_conf)
