@@ -6,7 +6,7 @@ from datetime import date
 from time import localtime, strftime
 from flask import Flask, g, render_template, url_for, request, \
     redirect, flash, make_response, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -232,6 +232,7 @@ def upload():
 
 
 @app.route('/conference/<id_conf>')
+@cross_origin(**api_cors_config)
 @login_required
 def chat_room(id_conf):
     conference = dbase.get_conference(id_conf)
@@ -239,7 +240,8 @@ def chat_room(id_conf):
         conference = {'id_conf': id_conf, 'title': conference[1]}
         fullname = f"{current_user.get_lname()} {current_user.get_fname()}"
         return render_template('chat_room.html', title=f"{conference['title']}",
-                               username=fullname, conference=conference)
+                               userid=current_user.get_id(), username=fullname,
+                               conference=conference)
     else:
         flash("Вы не являетесь членом этого чата.", category='error')
         return redirect(url_for('profile'))
@@ -350,22 +352,34 @@ def invitation_accept():
     return "Mistaken", 404
 
 
-@socketio.on('join')
-def handle_join(data):
-    join_room(data['conference'])
-    socketio.emit('join_announcement', data, room=data['conference'])
+@socketio.on('user-connected')
+def handle_connect(data):
+    username = data['username']
+    conference = data['conference']
+    join_room(conference)
+    message = "<b> зашёл в чат.</b>"
+    socketio.emit('receive-message', {"username": username, "message": message}, room=conference)
+    socketio.emit('user-joined', room=conference)
 
 
-@socketio.on('leave')
-def handle_leave(data):
-    leave_room(data['conference'])
-    socketio.emit('leave_announcement', data, room=data['conference'])
+@socketio.on('user-disconnected')
+def handle_disconnect(data):
+    username = data['username']
+    conference = data['conference']
+    leave_room(conference)
+    message = "<b> вашел из чата.</b>"
+    socketio.emit('receive-message', {"username": username, "message": message}, room=conference)
 
 
-@socketio.on('send_message')
-def handle_send_message(data):
-    socketio.emit('receive_message', data, room=data['conference'])
-    send(data['message'], broadcast=True)
+@socketio.on('user-message')
+def handle_message(data):
+    id_user = data['id_user']
+    username = data['username']
+    conference = data['conference']
+    message = data['message']
+    #   ЗАПИСЬ В БД
+    socketio.emit('receive-message', {"username": username, "message": message}, room=conference)
+    send(message, broadcast=True)
 
 
 if __name__ == '__main__':

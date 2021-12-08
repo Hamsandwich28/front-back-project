@@ -50,7 +50,7 @@ class Createform(FlaskForm):
     title_create = StringField("Заголовок", validators=[DataRequired(), Length(min=1, max=59)],
                                render_kw={'placeholder': 'Заголовок',
                                           'autocomplete': 'off',
-                                       'id': 'input-area'})
+                                          'id': 'input-area'})
 
     description_create = TextAreaField("Описание",
                                        render_kw={'placeholder': 'Описание',
@@ -61,7 +61,7 @@ class Createform(FlaskForm):
     period_content = [('', 'Без повторов'), ('3 days', '3 дня'), ('7 days', '7 дней'),
                       ('14 days', '14 дней'), ('1 month', '1 месяц')]
 
-    period_create = SelectField("Периодичность конференции", choices=period_content, 
+    period_create = SelectField("Периодичность конференции", choices=period_content,
                                 render_kw={'id': 'input-area'})
 
     date_create = DateField("Выберите день", validators=[DataRequired()], render_kw={'id': 'input-area'})

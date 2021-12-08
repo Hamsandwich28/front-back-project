@@ -170,3 +170,17 @@ h2 {
     border-radius: 20px;
     border: 1px solid #48575e;
 }
+
+/* VIDEO STYLES */
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    grid-auto-rows: 300px;
+}
