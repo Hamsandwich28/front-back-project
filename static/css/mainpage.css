@@ -304,20 +304,20 @@ display: none;
     height: 50px;
     margin: 20px auto;
     padding-top: 20px;
-    border: 2px solid gray;
-    border-radius: 15px;
+    border: 2px solid #dedee9;
+    border-radius: 50px;
     font-size: 24px;
     text-align: center;
 }
 
 .success {
-    background-color: lightgreen;
+    background-color: #99b43a;
     font-family: Roboto-Light;
     color: white;
 }
 
 .error {
-    background-color: pink;
+    background-color: #df7e8a;
     font-family: Roboto-Light;
     color: white;
 }
