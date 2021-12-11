@@ -1,14 +1,21 @@
-const peers = {};
-const myvideo = document.createElement('video');
-const videogrid = document.getElementById('video-grid');
-const page_url = `http://${document.domain}:${location.port}`;
-const messages = document.querySelector('#messages');
-const mypeer = new Peer(undefined, {
-    host: page_url,
-    port: "8001"
-});
+var peers = {};
+var videoGrid = document.getElementById("video-grid");
+var socket = io.connect(`http://${document.domain}:5001`);
+var peer = new Peer(userId);
 
-let socket = io.connect(page_url);
+console.log(userId);
+console.log(peer);
+
+function leaveCall() {
+    for (let userPeer of Object.values(peers)) {
+        userPeer.close();
+    }
+    socket.emit("user-disconnected", {
+        leaveId: userId,
+        username: fullname,
+        conference: conf_id
+    });
+}
 
 function sendMessage() {
     text_box = document.querySelector('#send_text');
@@ -25,66 +32,66 @@ function sendMessage() {
     text_box.focus();
 }
 
-function addVideoStream(video, stream) {
-    video.srcObject = stream;
-    video.addEventListener('loadedmetadata', () => {
-        video.play();
-    });
-    videogrid.append(video);
+function addUserVideo(videoObj, userStream) {
+    videoObj.srcObject = userStream;
+    videoObj.onloadedmetadata = () => {
+        videoObj.play();
+    }
+    videoGrid.appendChild(videoObj);
 }
 
 function connectToNewUser(user, stream) {
-    const call = mypeer.call(user, stream);
-    const video = document.createElement('video');
+    console.log("Call to ", user);
+    const call = peer.call(user, stream);
+    const userVideo = document.createElement('video');
     call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream);
+        addVideoStream(userVideo, userVideoStream);
     })
     call.on('close', () => {
-        video.remove();
+        userVideo.remove();
     })
     peers[user] = call;
 }
+
+document.querySelector('#send_text').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') { sendMessage(); }
+})
+document.querySelector('#send_msg').onclick = (e) => { sendMessage(); }
+
+socket.on('connect', () => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    .then(stream => {
+        var video = document.createElement("video");
+        addUserVideo(video, stream);
+        peer.on("call", call => {
+            call.answer(stream);
+            var videoUser = document.createElement("video");
+            call.on("stream", userVideoStream => {
+                addUserVideo(videoUser, userVideoStream);
+            })
+        })
+
+        socket.on("user-joined", joinedUserId => {
+            if (userId != joinedUserId) {
+                connectToNewUser(joinedUserId, stream);
+            }
+        });
+
+        socket.on("user-left", leftUserId => {
+            peers[leftUserId].close();
+        })
+    })
+    .catch(err => { console.error(err)} );
+
+    socket.emit('user-connected', {
+        joinedId: userId,
+        username: fullname,
+        conference: conf_id
+    });
+});
 
 socket.on('receive-message', data => {
     const new_message = document.createElement('p');
     new_message.innerHTML = `<b>${data.username}</b> ${data.message}`;
     messages.appendChild(new_message);
-})
-
-socket.on('connect', () => {
-    socket.emit('user-connected', {
-        username: fullname,
-        conference: conf_id
-    });
-
-    navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true
-    }).then(stream => {
-        addVideoStream(myvideo, stream);
-        mypeer.on('call', call => {
-            call.answer(stream);
-            const video = document.createElement('video');
-            call.on('stream', userVideoStream => {
-                addVideoStream(video, userVideoStream);
-            })
-        })
-
-        socket.on('user-joined', userid => {
-            connectToNewUser(userid, stream);
-        })
-    })
-
-    document.querySelector('#send_text').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') { sendMessage(); }
-    })
-    document.querySelector('#send_msg').onclick = (e) => { sendMessage(); }
-})
-
-window.onbeforeunload = () => {
-    socket.emit('user-disconnected', {
-        username: fullname,
-        conference: conf_id
-    })
-    peers[userId].close();
-};
+});

@@ -1,5 +1,6 @@
 # system import
 import os
+import ssl
 import psycopg2
 import configparser
 from datetime import date
@@ -8,7 +9,6 @@ from flask import Flask, g, render_template, url_for, request, \
     redirect, flash, make_response, jsonify
 from flask_cors import CORS, cross_origin
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # self import
@@ -16,11 +16,13 @@ from bamboo_forms import Loginform, Registerform, Createform, Addform, Removefor
 from bamboo_database_test import BDatabaseTest
 from bamboo_userlogin import Userlogin, userify
 
+context = ssl.SSLContext()
+context.load_cert_chain('cert.pem', 'key.pem')
+
 # config
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'kmgdtjnosfepplrgb7yjig8msvlbgftd5grevb'
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
-socketio = SocketIO(app)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 # database connection data
@@ -342,44 +344,14 @@ def invitation_accept():
         str_id = str(request.json.get("accepted_id"))
         id_accepted = int(str_id.split("_")[1])
         if dbase.accept_invitation(int(current_user.get_id()), id_accepted):
-            return jsonify({"accepted": "True"}), 200
+            return jsonify({"accepted": True}), 200
 
-        return jsonify({"accepted": "False"}), 200
+        return jsonify({"accepted": False}), 200
     except... as e:
         print("Какая-то ошибка -> ", e)
 
     return "Mistaken", 404
 
 
-@socketio.on('user-connected')
-def handle_connect(data):
-    username = data['username']
-    conference = data['conference']
-    join_room(conference)
-    message = "<b> зашёл в чат.</b>"
-    socketio.emit('receive-message', {"username": username, "message": message}, room=conference)
-    socketio.emit('user-joined', room=conference)
-
-
-@socketio.on('user-disconnected')
-def handle_disconnect(data):
-    username = data['username']
-    conference = data['conference']
-    leave_room(conference)
-    message = "<b> вашел из чата.</b>"
-    socketio.emit('receive-message', {"username": username, "message": message}, room=conference)
-
-
-@socketio.on('user-message')
-def handle_message(data):
-    id_user = data['id_user']
-    username = data['username']
-    conference = data['conference']
-    message = data['message']
-    #   ЗАПИСЬ В БД
-    socketio.emit('receive-message', {"username": username, "message": message}, room=conference)
-    send(message, broadcast=True)
-
-
 if __name__ == '__main__':
-    socketio.run(app)
+    app.run(host="127.0.0.1", port=5000, ssl_context=context)
