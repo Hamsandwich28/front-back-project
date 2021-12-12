@@ -13,7 +13,7 @@ body {
     box-sizing: border-box;
     margin: 0;
     background: url(../images/greeting.jpg) center no-repeat;
-    background-size: cover;
+    background-size:100% 100%;
     overflow: hidden;
     font-family: Roboto-Light;
     color: #fff;
@@ -21,7 +21,7 @@ body {
 }
 
 #main-section {
-    background: rgba(184, 207, 105, 0.3);
+    background: #2d4a1a;
     width: 1100px;
     height: 510px;
     margin: 50px auto;
@@ -54,12 +54,12 @@ body {
 }
 
 .conference-members {
-    border: 2px solid #fff;
     border-radius: 10px;
     width: 400px;
     height: 250px;
     padding: 5px;
     overflow-y: auto;
+    background-color: #699b2c;
 }
 
 .conference-members::-webkit-scrollbar {
@@ -93,16 +93,18 @@ body {
 .line {
     margin: 20px 0px;
     border-bottom: 1px solid #fff;
+    border-color: #699b2c;
 }
 
 hr {
     width: 0px;
     border-width: 0.1px;
+    border-color: #699b2c;
 }
 
 h2 {
     font-family: Roboto-Bold;
-    margin: 10px 230px;
+    margin: 10px 280px;
 }
 
 p {
@@ -115,18 +117,16 @@ p {
     font-size: 20px;
     background: #699b2c;
     color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
     border-radius: 20px;
-    width: 80px;
-    height: 50px;
+    margin: 5px 5px;
+    width: 100px;
+    height: 35px;
     cursor: pointer;
 }
 
 #back:hover,
 #back:focus {
-    background: #2d4a1a;
+    background: #87af56;
 }
 
 #back a:link,
@@ -143,9 +143,6 @@ p {
     font-size: 20px;
     background: #699b2c;
     color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
     border-radius: 20px;
     width: 120px;
     height: 40px;
@@ -154,7 +151,7 @@ p {
 
 #delete_button:hover,
 #delete_button:focus {
-    background: #2d4a1a;
+    background: #87af56;
 }
 
 #btn {
@@ -163,9 +160,6 @@ p {
     font-size: 20px;
     background: #699b2c;
     color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
     border-radius: 20px;
     width: 270px;
     height: 40px;
@@ -175,14 +169,14 @@ p {
 
 #btn:hover,
 #btn:focus {
-    background: #2d4a1a;
+    background: #87af56;
 }
 
 #input-area {
     overflow: hidden;
     font-size: 16px;
     padding: 5px 10px;
-    border: 1px solid #ffffff;
+    border: 0px solid #ffffff;
     color: #ffffff;
     border-radius: 7px;
     background-color: #699b2c;
@@ -214,7 +208,6 @@ textarea {
     height: 50px;
     margin: 20px auto;
     padding-top: 20px;
-    border: 2px solid #dedee9;
     border-radius: 50px;
     font-size: 24px;
     text-align: center;

@@ -55,18 +55,21 @@
                         <div class="conference-info">
                             <div class="info">
                                 <span class="title">{{ conf.title | title }}</span>
-                                <div class="preview-image"><img src="" alt="PLACEHOLDER" class="preview-image"></div>
                                 <div class="description">{{ conf.description | title }}</div>
                                 <div class="creator-name">Инициатор: {{ conf.creator_lastname }} {{ conf.creator_firstname }}</div>
                                 <div class="conf-time">Время подключения: {{ conf.time_conf }}</div>
                             </div>
-                            {% if conf.is_active -%}
-                            <a href="/conference/{{ conf.id_conf }}" class="connect-to">Войти</a>
-                            {% endif -%}
-                            
-                            {% if id_user == conf.id_creator -%}
-                            <a href="/conference/{{ conf.id_conf }}/edit" class="change-conf">Изменить</a>
-                            {% endif -%}
+                            <hr>
+                            <div id="enter-change">
+                                {% if conf.is_active -%}
+                                <a href="/conference/{{ conf.id_conf }}" class="connect-to">Войти</a>
+                                {% endif -%}
+
+                                {% if id_user == conf.id_creator -%}
+                                <a href="/conference/{{ conf.id_conf }}/edit" class="change-conf">Изменить</a>
+                                {% endif -%}
+                            </div>
+
                         </div>
                     </li>
                 {% endfor %}

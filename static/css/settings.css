@@ -13,7 +13,7 @@ body {
     box-sizing: border-box;
     margin: 0;
     background: url(../images/greeting.jpg) center no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
     overflow: hidden;
     font-family: Roboto-Light;
     color: #fff;
@@ -21,7 +21,7 @@ body {
 }
 
 #main-section {
-    background: rgba(184, 207, 105, 0.3);
+    background: #2d4a1a;
     width: 570px;
     height: 320px;
     margin: 50px auto;
@@ -47,7 +47,7 @@ body {
 
 .avatar-img {
     width: 100%;
-    height: auto;
+    height: 100%;
     margin: 0 auto;
 }
 
@@ -63,6 +63,7 @@ p {
 hr {
     margin: 10px 0px;
     width: 0px;
+    border-color: #699b2c;
     border-width: 0.1px;
 }
 
@@ -78,18 +79,16 @@ h2 {
     font-size: 20px;
     background: #699b2c;
     color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
     border-radius: 20px;
-    width: 80px;
-    height: 50px;
+    margin: 5px 5px;
+    width: 100px;
+    height: 35px;
     cursor: pointer;
 }
 
 #back:hover,
 #back:focus {
-    background: #2d4a1a;
+    background: #87af56;
 }
 
 #back a:link,
@@ -106,9 +105,6 @@ h2 {
     font-size: 20px;
     background: #699b2c;
     color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
     border-radius: 20px;
     width: 130px;
     height: 40px;
@@ -119,7 +115,7 @@ h2 {
 
 #load:hover,
 #load:focus {
-    background: #2d4a1a;
+    background: #87af56;
 }
 
 #btn {
@@ -128,9 +124,6 @@ h2 {
     font-size: 20px;
     background: #699b2c;
     color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
     border-radius: 20px;
     width: 200px;
     height: 40px;
@@ -141,14 +134,14 @@ h2 {
 
 #btn:hover,
 #btn:focus {
-    background: #2d4a1a;
+    background: #87af56;
 }
 
 #input-area {
     overflow: hidden;
     font-size: 16px;
     padding: 5px 10px;
-    border: 1px solid #ffffff;
+    border: 0px solid #ffffff;
     color: #ffffff;
     border-radius: 7px;
     background-color: #699b2c;
@@ -176,12 +169,13 @@ textarea {
     color: rgba(255, 255, 255, 0.671);
 }
 
+
+
 .flash {
     width: 600px;
     height: 50px;
     margin: 20px auto;
     padding-top: 20px;
-    border: 2px solid #dedee9;
     border-radius: 50px;
     font-size: 24px;
     text-align: center;

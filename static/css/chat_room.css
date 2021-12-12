@@ -13,7 +13,7 @@ body {
     box-sizing: border-box;
     margin: 0;
     background: url(../images/greeting.jpg) center no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
     overflow: hidden;
 }
 
@@ -44,9 +44,9 @@ textarea {
     margin: auto;
     margin-top: 740px;
     width: 250px;
-    height: 30px;
+    height: 35px;
     padding: 5px 10px;
-    border: 1px solid #ffffff;
+    border: 0px solid #ffffff;
     color: #ffffff;
     border-radius: 7px;
     background-color: #699b2c;
@@ -86,41 +86,38 @@ input::-moz-placeholder {
     font-size: 22px;
     background: #699b2c;
     color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
     border-radius: 7px;
     width: 60px;
-    height: 43px;
+    height: 46px;
     cursor: pointer;
 }
 
 #send_msg:hover,
 #send_msg:focus {
-    background: #2d4a1a;
+    background: #87af56;
+}
+
+#send_msg i{
+    margin-bottom: 3px;
+    padding-right: 5px;
 }
 
 #back {
     border: 0;
     outline: none;
-    margin: auto;
-    padding-top: 3px;
-    padding: 10px 0;
     font-size: 20px;
-    background: #699b2c;
+    background: #2d4a1a;
     color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
     border-radius: 20px;
-    width: 80px;
-    height: 50px;
+    width: 100px;
+    height: 35px;
     cursor: pointer;
+    margin: 5px 5px;
 }
 
 #back:hover,
 #back:focus {
-    background: #2d4a1a;
+    background: #496c1e;
 }
 
 #back a:link,

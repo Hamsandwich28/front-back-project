@@ -13,7 +13,7 @@ body {
     box-sizing: border-box;
     margin: 0;
     background: url(../images/greeting.jpg) center no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
     overflow: hidden;
     font-family: Roboto-Light;
     color: #fff;
@@ -21,7 +21,7 @@ body {
 }
 
 #main-section {
-    background: rgba(184, 207, 105, 0.3);
+    background: #2d4a1a;
     width: 500px;
     height: 500px;
     margin: 50px auto;
@@ -72,7 +72,7 @@ body {
 
 h2 {
     font-family: Roboto-Bold;
-    margin: 10px 60px;
+    margin: 10px 40px;
 }
 
 p {
@@ -85,18 +85,16 @@ p {
     font-size: 20px;
     background: #699b2c;
     color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
     border-radius: 20px;
-    width: 80px;
-    height: 50px;
+    margin: 5px 5px;
+    width: 100px;
+    height: 35px;
     cursor: pointer;
 }
 
 #back:hover,
 #back:focus {
-    background: #2d4a1a;
+    background: #87af56;
 }
 
 #back a:link,
@@ -113,9 +111,6 @@ p {
     font-size: 20px;
     background: #699b2c;
     color: #ffffff;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    -webkit-appearance: none;
     border-radius: 20px;
     width: 100px;
     height: 30px;
@@ -126,7 +121,7 @@ p {
 
 .btn:hover,
 .btn:focus {
-    background: #2d4a1a;
+    background: #87af56;
 }
 
 .empty-conference {

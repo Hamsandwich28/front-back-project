@@ -35,7 +35,7 @@ dbase = None
 login_manager = LoginManager(app)
 login_manager.login_view = 'index'
 login_manager.login_message = 'Пожалуйста, авторизуйтесь на сайте'
-login_manager.login_message_category = 'error'
+login_manager.login_message_category = 'success'
 
 
 @login_manager.user_loader

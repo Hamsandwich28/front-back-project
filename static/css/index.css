@@ -287,8 +287,7 @@ textarea {
     width: 700px;
     height: 80px;
     margin: 20px auto;
-    padding-top: 20px;
-    border: 2px solid #dedee9;
+    padding: 24px;
     border-radius: 50px;
     font-size: 24px;
     text-align: center;
