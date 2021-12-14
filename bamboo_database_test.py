@@ -429,6 +429,52 @@ class BDatabaseTest:
 
         return False
 
+    def get_chat_story(self, id_conf):
+        try:
+            sql = f"""
+            SELECT lastname, firstname, time_paste, msg
+            FROM users JOIN chat_story
+            ON users.id_user = chat_story.id_user
+            WHERE chat_story.id_conf = {id_conf}
+            ORDER BY time_paste;"""
+            self.__cur.execute(sql)
+            rows = self.__cur.fetchall()
+
+            return rows
+        except psycopg2.Error as e:
+            print("Ошибка чтения истории чата -> ", e)
+
+        return False
+
+    def clear_chat_story(self, id_conf):
+        try:
+            sql = f"""
+            DELETE FROM chat_story
+            WHERE id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+
+            return True
+        except psycopg2.Error as e:
+            print("Ошибка удаления истории чата -> ", e)
+
+        return False
+
+    def is_conference_active(self, id_conf):
+        durable = 2  # два часа
+        try:
+            sql = f"""
+            SELECT time_conf FROM conferences
+            WHERE id_conf = {id_conf};"""
+            self.__cur.execute(sql)
+            res = self.__cur.fetchone()
+            res = res[-1]
+
+            return res <= datetime.now() <= res + timedelta(hours=durable)
+        except psycopg2.Error as e:
+            print("Ошибка выполнения команды -> ", e)
+
+        return False
+
     def active_conference_filter(self, id_conf):
         durable = 2  # два часа
         try:
@@ -446,6 +492,7 @@ class BDatabaseTest:
             elif datetime.now() < start:
                 return False
             elif period:
+                self.clear_chat_story(id_conf)
                 if self.update_time_conference(id_conf, start, period):
                     return self.active_conference_filter(id_conf)
                 else:

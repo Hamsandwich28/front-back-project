@@ -1,10 +1,13 @@
 var peers = {};
 var videoGrid = document.getElementById("video-grid");
-var socket = io.connect(`http://${document.domain}:5001`);
+var socket = io.connect(`https://${document.domain}:5001`);
 var peer = new Peer(userId);
 
-console.log(userId);
-console.log(peer);
+function pasteMessage(username, message) {
+    const new_message = document.createElement('p');
+    new_message.innerHTML = `<b>${username}</b> ${message}`;
+    document.getElementById('messages').append(new_message);
+}
 
 function leaveCall() {
     for (let userPeer of Object.values(peers)) {
@@ -53,45 +56,58 @@ function connectToNewUser(user, stream) {
     peers[user] = call;
 }
 
+async function fetchChatStory() {
+    return fetch(`/getstory/${conf_id}`)
+    .then(response => {
+        response.json()
+        .then(data => {
+            data.story.forEach(row => {
+                pasteMessage(row.username, row.message);
+            })
+        })
+    })
+    .catch(err => { console.error(err); });
+}
+
 document.querySelector('#send_text').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') { sendMessage(); }
 })
 document.querySelector('#send_msg').onclick = (e) => { sendMessage(); }
 
-socket.on('connect', () => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-    .then(stream => {
-        var video = document.createElement("video");
-        addUserVideo(video, stream);
-        peer.on("call", call => {
-            call.answer(stream);
-            var videoUser = document.createElement("video");
-            call.on("stream", userVideoStream => {
-                addUserVideo(videoUser, userVideoStream);
-            })
-        })
-
-        socket.on("user-joined", joinedUserId => {
-            if (userId != joinedUserId) {
-                connectToNewUser(joinedUserId, stream);
-            }
-        });
-
-        socket.on("user-left", leftUserId => {
-            peers[leftUserId].close();
-        })
-    })
-    .catch(err => { console.error(err)} );
-
-    socket.emit('user-connected', {
-        joinedId: userId,
-        username: fullname,
-        conference: conf_id
-    });
+socket.on('receive-message', data => {
+    pasteMessage(data.username, data.message);
 });
 
-socket.on('receive-message', data => {
-    const new_message = document.createElement('p');
-    new_message.innerHTML = `<b>${data.username}</b> ${data.message}`;
-    messages.appendChild(new_message);
+socket.on('connect', () => {
+    fetchChatStory().then(() => {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        .then(stream => {
+            var video = document.createElement("video");
+            addUserVideo(video, stream);
+            peer.on("call", call => {
+                call.answer(stream);
+                var videoUser = document.createElement("video");
+                call.on("stream", userVideoStream => {
+                    addUserVideo(videoUser, userVideoStream);
+                })
+            })
+
+            socket.on("user-joined", joinedUserId => {
+                if (userId != joinedUserId) {
+                    connectToNewUser(joinedUserId, stream);
+                }
+            });
+
+            socket.on("user-left", leftUserId => {
+                peers[leftUserId].close();
+            })
+        })
+        .catch(err => { console.error(err)} );
+
+        socket.emit('user-connected', {
+            joinedId: userId,
+            username: fullname,
+            conference: conf_id
+        });
+    });
 });
