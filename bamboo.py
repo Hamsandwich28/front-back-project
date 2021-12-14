@@ -238,6 +238,10 @@ def upload():
 def chat_room(id_conf):
     conference = dbase.get_conference(id_conf)
     if conference and dbase.is_conf_member(id_conf, current_user.get_id()):
+        if not dbase.is_conference_active(id_conf):
+            flash("Конференция неактивна. ", category='error')
+            return redirect(url_for('profile'))
+
         conference = {'id_conf': id_conf, 'title': conference[1]}
         fullname = f"{current_user.get_lname()} {current_user.get_fname()}"
         return render_template('chat_room.html', title=f"{conference['title']}",
@@ -246,6 +250,17 @@ def chat_room(id_conf):
     else:
         flash("Вы не являетесь членом этого чата.", category='error')
         return redirect(url_for('profile'))
+
+
+@app.route('/getstory/<id_conf>', methods=['GET'])
+@login_required
+def get_chat_story(id_conf):
+    rows = dbase.get_chat_story(id_conf)
+    story_rows = [{
+        "username": f"{row[0]} {row[1]}",
+        "message": row[3]
+    } for row in rows]
+    return jsonify({"story": story_rows}), 200
 
 
 @app.route('/conference/<id_conf>/edit', methods=['GET'])
@@ -354,4 +369,4 @@ def invitation_accept():
 
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=5000, ssl_context=context)
+    app.run(host="0.0.0.0", port=5000, ssl_context=context)
