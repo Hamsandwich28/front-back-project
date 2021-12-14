@@ -8,13 +8,11 @@
 {% block content -%}
 
 <div id="main-section">
-        <div>
-            <button type="button" id="back" onclick="leaveCall()">
-                <a href="{{ url_for('profile') }}">Назад</a>
-            </button>
-        </div>
         <div id="conference">
-            <h2>{{ conference.title }}</h2>
+            <div id="hback">
+                <button type="button" id="back" onclick="leaveCall()"><a href="{{ url_for('profile') }}"><i class="fa-regular fa-circle-left"></i></a></button>
+                <h2>{{ conference.title }}</h2>
+            </div>
             <div id="video">
                 <div id="video-grid"></div>
             </div>

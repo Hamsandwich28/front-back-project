@@ -1,9 +1,6 @@
 <form action="{{ url_for('create_conference') }}" method="post">
     {{ create_form.hidden_tag() }}
-    <div id="hback">
-        <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a></button>
-        <h2>КОНФЕРЕНЦИЯ</h2>
-    </div>
+    <h2>КОНФЕРЕНЦИЯ</h2>
 
     <div id="create-form">
         <div class="input-value">
@@ -21,8 +18,10 @@
     <div class="input-value">
         {{ create_form.period_create.label() }}{{ create_form.period_create() }}
     </div>
-    <div class="input-value">
-        {{ create_form.submit_create() }}
+    <div id="hback">
+        <div class="input-value">{{ create_form.submit_create() }}</div>
+        <button type="button" id="back"><a href="{{ url_for('profile') }}">Отменить</a></button>
     </div>
+
     </div>
 </form>

@@ -21,6 +21,8 @@ body {
     background-size: 100% 100%;
     overflow: hidden;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .form {
@@ -28,7 +30,6 @@ body {
     width: 1600px;
     height: 800px;
     margin: auto;
-    margin-top: 50px;
     border-radius: 20px;
     font-family: Roboto-Light;
 }
@@ -59,15 +60,16 @@ body {
 .menu h1 {
     position: relative;
     top: 0px;
-    left: 5px;
+    /*left: 5px;*/
+    text-align: center;
     font-size: 35px;
     font-family: PermanentMarker-Regular;
     margin-top: 15px;
 }
 
 .av {
-    width: 70px;
-    height: 70px;
+    width: 170px;
+    height: 170px;
     overflow: hidden;
     border-radius: 50%;
     margin: 0 auto;
@@ -100,7 +102,7 @@ body {
     font-size: 17px;
 }
 
-.fa-ul{
+.fa-ul {
     margin-left: 0px;
 }
 
@@ -116,17 +118,17 @@ body {
     margin-left: 20px;
 }
 
-a span{
+a span {
     margin-left: 15px;
 }
 
 .fa-ul li {
-    margin-bottom: 40px;
+    margin-bottom: 5px;
 }
 
 .fa-ul {
     text-align: left;
-    margin-top: 70px;
+    margin-top: 130px;
 }
 
 
@@ -149,7 +151,6 @@ display: none;
     padding: 5px 5px;
 }
 
-
 .info {
     display: flex;
     flex-direction: column;
@@ -157,10 +158,10 @@ display: none;
     margin-top: 10px;
     margin-left: 20px;
     margin-bottom: 10px;
-    margin-right:10px;
+    margin-right: 70px;
 }
 
-.title{
+.title {
     font-size: 30px;
     font-family: Roboto-Bold;
 }
@@ -185,7 +186,6 @@ display: none;
     height: 50px;
     font-size: 25px;
 }
-
 
 .create-conference i {
     margin-left: 30px;
@@ -221,6 +221,7 @@ display: none;
     font-family: Roboto-Light;
     display: flex;
     flex-direction: raw;
+    justify-content: flex-end;
 }
 
 #conferences {
@@ -238,22 +239,24 @@ display: none;
     margin-right: 10px;
 }
 
-#enter-change{
-    display:flex;
+#enter-change {
+    display: flex;
     flex-direction: column;
-    align-items:start;
+    align-items: start;
+    margin-right: 10px;
     margin-top: 5px;
+
 }
 
 hr {
     width: 0px;
     margin-left: 10px;
-    margin-right:10px;
+    margin-right: 10px;
     border-width: 0.1px;
     border-color: #699b2c;
 }
 
-.description{
+.description {
     max-width: 1100px;
     word-wrap: break-word;
 }
@@ -269,7 +272,7 @@ hr {
 }
 
 .connect-to:hover,
-.change-conf:hover{
+.change-conf:hover {
     background-color: #87af56;
 }
 
@@ -279,8 +282,10 @@ hr {
 }
 
 .change-conf {
-    width: 75px;
+    width: 20px;
     padding: 7px 13px;
+    font-size: 20px;
+    margin: auto;
 }
 
 .active {
@@ -288,13 +293,12 @@ hr {
 }
 
 .inactive {
-    background-color: #699b2c8c;
+    background-color: #699b2c;
 }
 
 #logout {
     text-decoration: none;
     color: #ffffff;
-
     border-radius: 20px;
     background-color: #699b2c;
     font-size: 20px;
@@ -302,10 +306,10 @@ hr {
     text-align: center;
     padding: 5px;
     margin: auto;
-    margin-top:10px;
+    margin-top: 10px;
 }
 
-#logout:hover{
+#logout:hover {
     background-color: #87af56;
 }
 

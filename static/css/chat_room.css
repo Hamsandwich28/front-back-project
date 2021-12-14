@@ -15,6 +15,7 @@ body {
     background: url(../images/greeting.jpg) center no-repeat;
     background-size: 100% 100%;
     overflow: hidden;
+    display: flex;
 }
 
 #main-section {
@@ -22,10 +23,10 @@ body {
     width: 1600px;
     height: 800px;
     margin: auto;
-    margin-top: 50px;
     border-radius: 20px;
     display: flex;
-    align-items: flex-start;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 #chat {
@@ -102,6 +103,10 @@ input::-moz-placeholder {
     padding-right: 5px;
 }
 
+#hback{
+    display:flex;
+}
+
 #back {
     border: 0;
     outline: none;
@@ -109,7 +114,7 @@ input::-moz-placeholder {
     background: #2d4a1a;
     color: #ffffff;
     border-radius: 20px;
-    width: 100px;
+    width: 35px;
     height: 35px;
     cursor: pointer;
     margin: 5px 5px;
@@ -131,11 +136,14 @@ input::-moz-placeholder {
 h2 {
     color: #ffffff;
     font-size: 30px;
+    margin-top:5px;
+    margin-bottom: 70px;
     font-family: Roboto-Bold;
+    margin: 5px auto;
 }
 
 #conference {
-    width: 1120px;
+    width: 1300px;
     text-align: center;
 }
 
@@ -180,9 +188,10 @@ video {
 #video {
     overflow: hidden;
     margin: auto;
+    text-align: center;
     margin-top: 50px;
-    width: 1040px;
-    height: 585px;
+    width: 1120px;
+    height: 630px;
     border: 3px solid #ffffff;
     color: #ffffff;
     border-radius: 15px;

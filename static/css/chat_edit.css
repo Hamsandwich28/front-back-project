@@ -18,14 +18,19 @@ body {
     font-family: Roboto-Light;
     color: #fff;
     font-size: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 #main-section {
     background: #2d4a1a;
     width: 1100px;
-    height: 510px;
-    margin: 50px auto;
+    height: 540px;
+    margin: auto;
     border-radius: 20px;
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
 }
 
 #hback {
@@ -105,6 +110,7 @@ hr {
 h2 {
     font-family: Roboto-Bold;
     margin: 10px 280px;
+    align-self: center;
 }
 
 p {
@@ -118,10 +124,12 @@ p {
     background: #699b2c;
     color: #ffffff;
     border-radius: 20px;
-    margin: 5px 5px;
-    width: 100px;
+    text-align:center;
+    width: 110px;
     height: 35px;
     cursor: pointer;
+    align-self: center;
+    margin-bottom: 7px;
 }
 
 #back:hover,

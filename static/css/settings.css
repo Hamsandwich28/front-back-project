@@ -18,16 +18,29 @@ body {
     font-family: Roboto-Light;
     color: #fff;
     font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #main-section {
     background: #2d4a1a;
     width: 570px;
     height: 320px;
-    margin: 50px auto;
+    margin: auto;
     border-radius: 20px;
     display: flex;
-    text-align: start;
+    flex-direction:column;
+}
+
+#section{
+    display: flex;
+}
+
+#main-main{
+    display: flex;
+    width: 570px;
+    height: 320px;
 }
 
 .avatar_change {
@@ -55,11 +68,6 @@ p {
     margin: 5px 20px;
 }
 
-#hback {
-    display: flex;
-    text-align: start;
-}
-
 hr {
     margin: 10px 0px;
     width: 0px;
@@ -69,8 +77,15 @@ hr {
 
 h2 {
     font-family: Roboto-Bold;
-    margin: 10px 31px;
+    margin: 10px auto;
     font-size: 22px;
+}
+
+h3 {
+    font-family: Roboto-Light;
+    margin: 5px auto;
+    font-size: 16px;
+    text-align: center;
 }
 
 #back {
@@ -78,11 +93,10 @@ h2 {
     outline: none;
     font-size: 20px;
     background: #699b2c;
-    color: #ffffff;
     border-radius: 20px;
     margin: 5px 5px;
-    width: 100px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
 }
 

@@ -12,10 +12,10 @@
 
     <div class="form">
         <div class="menu">
-            <div class="icon">
+            <!--<div class="icon">
                 <img src="{{ url_for('static', filename='images/logo_outline.png') }}"
                 class="icon-img">
-            </div>
+            </div>-->
             <h1>CAMBOOK</h1>
             <div class="avatar">
                 <div class="av">
@@ -39,7 +39,7 @@
                     </li>
                     <li class="tab">
                         <a href="{{ url_for('invitations') }}">
-                            <i class="fas fa-edit"></i>
+                            <i class="fa-regular fa-envelope"></i>
                             <span id="invitations">Приглашения</span>
                         </a>
                     </li>
@@ -59,14 +59,14 @@
                                 <div class="creator-name">Инициатор: {{ conf.creator_lastname }} {{ conf.creator_firstname }}</div>
                                 <div class="conf-time">Время подключения: {{ conf.time_conf }}</div>
                             </div>
-                            <hr>
+
                             <div id="enter-change">
                                 {% if conf.is_active -%}
                                 <a href="/conference/{{ conf.id_conf }}" class="connect-to">Войти</a>
                                 {% endif -%}
 
                                 {% if id_user == conf.id_creator -%}
-                                <a href="/conference/{{ conf.id_conf }}/edit" class="change-conf">Изменить</a>
+                                <a href="/conference/{{ conf.id_conf }}/edit" class="change-conf"><i class="fas fa-edit"></i></a>
                                 {% endif -%}
                             </div>
 

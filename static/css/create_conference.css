@@ -18,16 +18,19 @@ body {
     font-family: Roboto-Light;
     color: #fff;
     font-size: 20px;
+    display: flex;
+    align-items: center;
 }
 
 #main-section {
     background: #2d4a1a;
-    width: 470px;
-    height: 515px;
+    width: 670px;
+    height: 525px;
     margin: 50px auto;
     border-radius: 20px;
     display: flex;
     align-items: flex-start;
+
 }
 
 .form-group {
@@ -43,11 +46,15 @@ body {
 
 h2 {
     font-family: Roboto-Bold;
-    margin: 10px 25px;
+    margin-top: 5px;
+    text-align: center;
 }
 #hback {
     display: flex;
-    text-align: start;
+    text-align: center;
+    margin-right: 20px;
+    margin-top: 10px;
+    justify-content: space-evenly;
 }
 
 #create-form{
@@ -59,11 +66,9 @@ h2 {
     outline: none;
     font-size: 20px;
     background: #699b2c;
-    color: #ffffff;
     border-radius: 20px;
-    margin: 5px 5px;
-    width: 100px;
-    height: 35px;
+    width: 110px;
+    height: 40px;
     cursor: pointer;
 }
 
@@ -89,7 +94,6 @@ h2 {
     border-radius: 20px;
     width: 110px;
     height: 40px;
-    margin: 10px 160px;
     cursor: pointer;
 }
 
@@ -132,6 +136,7 @@ textarea {
 
 #description textarea{
     margin-right: 30px;
+    width: 500px;
 }
 
 .flash {

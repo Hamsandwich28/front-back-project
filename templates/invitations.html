@@ -6,11 +6,10 @@
 {% endblock head -%}
 
 {% block content -%}
-<div id="main-section">
-    <div id="hback">
-        <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a></button>
+<div id="main-main">
+    <button type="button" id="back"><a href="{{ url_for('profile') }}"><i class="fa-regular fa-circle-left"></i></a></button>
+    <div id="main-section">
         <h2>ПРИГЛАШЕНИЯ</h2>
-    </div>
     <div class="info">
         <p>{{ current_user.get_lname() }} {{ current_user.get_fname() }}</p>
         {% if invitations %}
@@ -22,7 +21,7 @@
                 <div class="invite-row">Инициатор - {{ invite.lastname }} {{ invite.firstname }}</div>
                 <button class="btn" id="accept_{{ invite.id }}" onclick="accept(this.id)">Принять</button>
             </div>
-        
+
             {% endfor -%}
         </div>
         {% else %}
@@ -30,5 +29,7 @@
         {% endif %}
     </div>
 </div>
+</div>
+
     <script src="{{ url_for('static', filename='js/invitations.js') }}"></script>
 {% endblock content -%}

@@ -11,10 +11,8 @@
 {% endfor %}
 
 <div id="main-section">
-    <div id="hback">
-        <button type="button" id="back"><a href="{{ url_for('profile') }}">Назад</a></button>
-        <h2>ИЗМЕНЕНИЕ СОСТАВА</h2>
-    </div>
+
+    <h2>ИЗМЕНЕНИЕ СОСТАВА</h2>
     
     <div class="edit-section">
         <div class="conference-data">
@@ -55,6 +53,7 @@
             <button id="delete_button" onclick="deleteconf()">Удалить</button>
         </div>
     </div>
+    <button type="button" id="back"><a href="{{ url_for('profile') }}">Отменить</a></button>
 
 </div>
 
