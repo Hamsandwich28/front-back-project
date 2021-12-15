@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS users (
 	id_user SERIAL,
 	email VARCHAR(40) NOT NULL,
-	pass_hash VARCHAR(100) NOT NULL,
+	pass_hash VARCHAR(256) NOT NULL,
 	lastname VARCHAR(20) NOT NULL,
 	firstname VARCHAR(20) NOT NULL,
 	avatar BYTEA,
