@@ -76,9 +76,10 @@ body {
 }
 
 .avatar-img {
-    width: 100%;
+    width: auto;
     height: 100%;
-    margin: 0 auto;
+    overflow: hidden;
+    margin: auto;
 }
 
 .avatar {
@@ -151,14 +152,18 @@ display: none;
     padding: 5px 5px;
 }
 
+.fa-ul .inactive {
+    background-color: #699b2c8c;
+    padding: 5px 5px;
+}
+
 .info {
     display: flex;
     flex-direction: column;
-    width: 1060px;
+    width: 1160px;
     margin-top: 10px;
     margin-left: 20px;
     margin-bottom: 10px;
-    margin-right: 70px;
 }
 
 .title {
