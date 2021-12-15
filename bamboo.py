@@ -126,11 +126,11 @@ def register():
 
         if res:
             flash('Регистрация прошла успешно', category='success')
+            return redirect(url_for('index'))
         else:
             flash('Пользователь с данной почтой уже зарегистрирован',
                   category='error')
-
-    return redirect(url_for('profile'))
+            return redirect(url_for('index'))
 
 
 @app.route('/logout')
@@ -310,6 +310,7 @@ def chat_add_member(id_conf):
             else:
                 dbase.send_invitation(id_user, id_conf)
                 flash("Пользователю отослано приглашение", category='success')
+                redirect(url_for('profile', id_conf=id_conf))
         else:
             flash("Пользователь не найден", category='error')
 

@@ -44,16 +44,18 @@ function addUserVideo(videoObj, userStream) {
 }
 
 function connectToNewUser(user, stream) {
-    console.log("Call to ", user);
     const call = peer.call(user, stream);
-    const userVideo = document.createElement('video');
-    call.on('stream', userVideoStream => {
-        addVideoStream(userVideo, userVideoStream);
-    })
-    call.on('close', () => {
-        userVideo.remove();
-    })
-    peers[user] = call;
+    if (call) {
+        const userVideo = document.createElement('video');
+        call.on('stream', userVideoStream => {
+            addVideoStream(userVideo, userVideoStream);
+        })
+        call.on('close', () => {
+            userVideo.remove();
+        })
+        console.log(call);
+        peers[user] = call;
+    }
 }
 
 async function fetchChatStory() {
@@ -85,11 +87,13 @@ socket.on('connect', () => {
             var video = document.createElement("video");
             addUserVideo(video, stream);
             peer.on("call", call => {
-                call.answer(stream);
-                var videoUser = document.createElement("video");
-                call.on("stream", userVideoStream => {
-                    addUserVideo(videoUser, userVideoStream);
-                })
+                if (call) {
+                    call.answer(stream);
+                    var videoUser = document.createElement("video");
+                    call.on("stream", userVideoStream => {
+                        addUserVideo(videoUser, userVideoStream);
+                    })
+                }
             })
 
             socket.on("user-joined", joinedUserId => {
@@ -98,9 +102,9 @@ socket.on('connect', () => {
                 }
             });
 
-            socket.on("user-left", leftUserId => {
-                peers[leftUserId].close();
-            })
+            // socket.on("user-left", leftUserId => {
+            //     peers[leftUserId].close();
+            // })
         })
         .catch(err => { console.error(err)} );
 
