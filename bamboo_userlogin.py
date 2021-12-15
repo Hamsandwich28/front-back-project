@@ -55,7 +55,7 @@ class Userlogin(UserMixin):
         self.__user = userify(self.__user)
         if not self.__user['avatar']:
             try:
-                with app.open_resource(app.root_path + url_for('static', filename='images/default.png'), 'rb') as f:
+                with app.open_resource(app.root_path + url_for('static', filename='images/logo_non_outline.png'), 'rb') as f:
                     img = f.read()
             except FileNotFoundError as e:
                 print("Standart file wasn't found. " + str(e))
